@@ -11,6 +11,10 @@ public class Libro {
     private boolean perdido;
     private boolean daniado;
 
+    public Libro() {
+        
+    }
+    
     public Libro(String id, String titulo, String autor, int anioPublicacion, boolean disponible, boolean perdido, boolean daniado) {
         this.id = id;
         this.titulo = titulo;
@@ -77,6 +81,9 @@ public class Libro {
         this.daniado = daniado;
     }
     
-    
+//    @Override
+//    public String toString() {
+//        return "ID: " + id + ", Título: " + titulo + ", Autor: " + autor + ", Año: " + anioPublicacion;
+//    }
     
 }
