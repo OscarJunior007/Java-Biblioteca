@@ -11,14 +11,14 @@ import java.util.List;
 public class Usuario {
     private String nombre,id,documento, perfil ="DEFAULT";
     
-   private ArrayList<Libro> librosPrestados;
+   
 
-    public Usuario(String nombre, String id, String documento, String perfil, ArrayList<Libro> librosPrestados) {
+    public Usuario(String nombre, String id, String documento, String perfil) {
         this.nombre = nombre;
         this.id = id;
         this.documento = documento;
         this.perfil = perfil;
-        this.librosPrestados = librosPrestados;
+      
     }
 
     public String getNombre() {
@@ -37,9 +37,7 @@ public class Usuario {
         return perfil;
     }
 
-    public ArrayList<Libro> getLibrosPrestados() {
-        return librosPrestados;
-    }
+   
 
     
     
@@ -59,9 +57,7 @@ public class Usuario {
         this.perfil = perfil;
     }
 
-    public void setLibrosPrestados(ArrayList<Libro> librosPrestados) {
-        this.librosPrestados = librosPrestados;
-    }
+    
    
     
     
