@@ -3,29 +3,32 @@ package biblioteca;
 
 
 public class Libro {
-    private String id;
+    private int id;
     private String titulo;
     private String autor;
-    private int anioPublicacion;
+    private String fechaPublicacion;
     private boolean disponible;
     private boolean perdido;
     private boolean daniado;
-
+    private boolean deshabilitado;
+    
     public Libro() {
         
     }
     
-    public Libro(String id, String titulo, String autor, int anioPublicacion, boolean disponible, boolean perdido, boolean daniado) {
-        this.id = id;
+    public Libro( String titulo, String autor, String fechaPublicacion, boolean disponible, boolean perdido, boolean daniado,boolean deshabilitado) {
         this.titulo = titulo;
         this.autor = autor;
-        this.anioPublicacion = anioPublicacion;
+        this.fechaPublicacion = fechaPublicacion;
         this.disponible = disponible;
         this.perdido = perdido;
         this.daniado = daniado;
+        this.deshabilitado = deshabilitado;
     }
+    
+ 
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -37,8 +40,8 @@ public class Libro {
         return autor;
     }
 
-    public int getAnioPublicacion() {
-        return anioPublicacion;
+    public String getfechaPublicacion() {
+        return fechaPublicacion;
     }
 
     public boolean isDisponible() {
@@ -52,8 +55,12 @@ public class Libro {
     public boolean isDaniado() {
         return daniado;
     }
+    
+     public boolean isdeshabilitado() {
+        return deshabilitado;
+    }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -65,8 +72,8 @@ public class Libro {
         this.autor = autor;
     }
 
-    public void setAnioPublicacion(int anioPublicacion) {
-        this.anioPublicacion = anioPublicacion;
+    public void setfechaPublicacion(String fechaPublicacion) {
+        this.fechaPublicacion = fechaPublicacion;
     }
 
     public void setDisponible(boolean disponible) {
@@ -81,9 +88,13 @@ public class Libro {
         this.daniado = daniado;
     }
     
+    public void setdeshabilitado(boolean deshabilitado) {
+        this.deshabilitado = deshabilitado;
+    }
+    
 //    @Override
 //    public String toString() {
-//        return "ID: " + id + ", Título: " + titulo + ", Autor: " + autor + ", Año: " + anioPublicacion;
+//        return "ID: " + id + ", Título: " + titulo + ", Autor: " + autor + ", Año: " + fechaPublicacion;
 //    }
     
 }
