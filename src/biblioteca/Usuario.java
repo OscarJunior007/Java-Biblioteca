@@ -4,16 +4,15 @@
  */
 package biblioteca;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 public class Usuario {
-    private String nombre,id,documento, perfil ="DEFAULT";
-    
+    private String nombre,documento, perfil ="DEFAULT";
+    int id;
    
 
-    public Usuario(String nombre, String id, String documento, String perfil) {
+    public Usuario(String nombre, int id, String documento, String perfil) {
         this.nombre = nombre;
         this.id = id;
         this.documento = documento;
@@ -25,7 +24,7 @@ public class Usuario {
         return nombre;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
@@ -45,7 +44,7 @@ public class Usuario {
         this.nombre = nombre;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
