@@ -51,7 +51,7 @@ public class Biblioteca {
     
     public  boolean guardarLibro(Libro nuevoLibro){
         
-        String SQLquery = "INSERT INTO libros (titulo, autor, fechaPublicacion, disponible, perdido, daniado,deshabilitado) VALUES (?, ?, ?, ?, ?, ?,?)";
+        String SQLquery = "INSERT INTO libros (titulo, autor, fechaPublicacion, stock, disponible, perdido, daniado,deshabilitado) VALUES (?, ?, ?, ?, ?, ?,?,?)";
         
 //        System.out.println("Número de libros antes de agregar: " + libros.size());
         
@@ -61,10 +61,11 @@ public class Biblioteca {
              ps.setString(1, nuevoLibro.getTitulo());
              ps.setString(2,nuevoLibro.getAutor());
              ps.setString(3, nuevoLibro.getfechaPublicacion());
-             ps.setInt(4,nuevoLibro.isDisponible()?1:0);
-             ps.setInt(5,nuevoLibro.isPerdido()?1:0);
-             ps.setInt(6,nuevoLibro.isDaniado()?1:0);
-             ps.setInt(7,nuevoLibro.isdeshabilitado()?1:0);
+             ps.setInt(4,nuevoLibro.getStock());
+             ps.setInt(5,nuevoLibro.isDisponible()?1:0);
+             ps.setInt(6,nuevoLibro.isPerdido()?1:0);
+             ps.setInt(7,nuevoLibro.isDaniado()?1:0);
+             ps.setInt(8,nuevoLibro.isdeshabilitado()?1:0);
              
              
              boolean libroAgregado = ps.execute();
@@ -168,6 +169,7 @@ public class Biblioteca {
             libro.setTitulo(response.getString("titulo"));
             libro.setAutor(response.getString("autor"));
             libro.setfechaPublicacion(response.getString("fechaPublicacion"));
+            libro.setStock(response.getInt("stock"));
             libro.setDisponible(response.getBoolean("disponible"));
             libro.setPerdido(response.getBoolean("perdido"));
             libro.setDaniado(response.getBoolean("daniado"));

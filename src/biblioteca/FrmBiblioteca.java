@@ -17,6 +17,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
     
     
     String id,titulo,autor,fecha;
+    int stock;
     
     String[] encabezado = {"Id","Titulo","Autor","Fecha de publicacion"};
     
@@ -82,10 +83,17 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         titulo = TxtTituloLibro.getText();
         autor = TxtAutorLibro.getText();
         fecha = TxtFechaPublicacion.getText();
+        stock = Integer.parseInt(TxtStock.getText());
         
         if(titulo.isEmpty() && autor.isEmpty() && fecha.isEmpty()){
              JOptionPane.showMessageDialog(this, "Debes ingresar los datos." , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
             return;
+       
+        }
+        
+         if(stock < 0){
+              JOptionPane.showMessageDialog(this, "el stock no puede ser igual o inferior a 0" , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
+              return;
         }
         try{
 //           for(int i =0; i< libros.size(); i++){
@@ -93,13 +101,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
 //           }
            
 //        id = TxtId.getText();
-
-
-       
-       
-       
-        
-        Libro nuevoLibro = new Libro(titulo, autor, fecha,true,false,false,false);
+        Libro nuevoLibro = new Libro(titulo, autor, fecha,stock,true,false,false,false);
         
         biblioteca.guardarLibro(nuevoLibro);
         
@@ -153,6 +155,8 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         TableInfo = new javax.swing.JTable();
         BtnDeshabilitar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        TxtStock = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -195,6 +199,10 @@ public class FrmBiblioteca extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Stock");
+
+        TxtStock.setText("jTextField1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -203,6 +211,10 @@ public class FrmBiblioteca extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(130, 130, 130)
+                        .addComponent(jLabel4))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2)
@@ -214,12 +226,12 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                                 .addComponent(TxtFechaPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(103, 103, 103)
-                                .addComponent(BtnGuardar))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(130, 130, 130)
-                        .addComponent(jLabel4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(BtnGuardar)))))
+                .addGap(49, 49, 49)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TxtStock, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(472, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(BtnDeshabilitar)
@@ -243,11 +255,14 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                                 .addComponent(jLabel3))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel4)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel1))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TxtTituloLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TxtFechaPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(TxtFechaPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TxtStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(4, 4, 4)
                 .addComponent(BtnDeshabilitar)
                 .addGap(18, 18, 18)
@@ -312,7 +327,9 @@ public class FrmBiblioteca extends javax.swing.JFrame {
     private javax.swing.JTable TableInfo;
     private javax.swing.JTextField TxtAutorLibro;
     private javax.swing.JTextField TxtFechaPublicacion;
+    private javax.swing.JTextField TxtStock;
     private javax.swing.JTextField TxtTituloLibro;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

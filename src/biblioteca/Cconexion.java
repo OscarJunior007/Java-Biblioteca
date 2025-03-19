@@ -17,7 +17,7 @@ public class Cconexion {
    private String bd="biblioteca";
    private String ip="localhost";
    private  String puerto="3306";
-
+   
     public Cconexion() {
         this.conectar = null;
         this.user="root";
