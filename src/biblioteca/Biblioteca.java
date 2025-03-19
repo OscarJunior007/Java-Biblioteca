@@ -121,6 +121,7 @@ public class Biblioteca {
         
     }
     
+    
      public boolean actualizarEstadoDeshabilitadoFalse(int idLibro){
         String SQLquery = "UPDATE libros SET deshabilitado = ? WHERE id = ?";
         

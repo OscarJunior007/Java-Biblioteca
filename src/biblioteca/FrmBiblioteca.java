@@ -19,7 +19,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
     String id,titulo,autor,fecha;
     int stock;
     
-    String[] encabezado = {"Id","Titulo","Autor","Fecha de publicacion"};
+    String[] encabezado = {"Id","Titulo","Autor","Feca de pubicacion"};
     
  
     ArrayList<Libro> libroRecibido;
@@ -91,10 +91,11 @@ public class FrmBiblioteca extends javax.swing.JFrame {
        
         }
         
-         if(stock < 0){
+         if(stock < 0 ){
               JOptionPane.showMessageDialog(this, "el stock no puede ser igual o inferior a 0" , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
               return;
         }
+         
         try{
 //           for(int i =0; i< libros.size(); i++){
 //               System.out.println("libros extraidos"+ libros.get(i));
