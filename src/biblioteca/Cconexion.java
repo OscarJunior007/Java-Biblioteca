@@ -30,6 +30,8 @@ public class Cconexion {
     
 
     
+
+    
     public Connection estableceConexcion(){
         try{
            conectar = DriverManager.getConnection(cadena,user,pass);
