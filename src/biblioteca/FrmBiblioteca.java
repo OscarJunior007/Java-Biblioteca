@@ -14,14 +14,9 @@ import javax.swing.table.DefaultTableModel;
 public class FrmBiblioteca extends javax.swing.JFrame {
     
     FrmVentanaDeshabilitar v2;
-    
-    
     String id,titulo,autor,fecha;
     int stock;
-    
     String[] encabezado = {"Id","Titulo","Autor","Feca de pubicacion"};
-    
- 
     ArrayList<Libro> libroRecibido;
     
     private Biblioteca biblioteca;
@@ -49,7 +44,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
 //    } else {
 //        System.out.println("biblioteca se ha inicializado correctamente ");
 //    }
-
+    
     }
     
     

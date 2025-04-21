@@ -1,21 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package biblioteca;
 
 
-
-
 public class Usuario {
-    private String nombre,documento, perfil ="DEFAULT";
+    private String nombre,documento, perfil ="DEFAULT", contraseña, apellido;
     int id;
    
 
-    public Usuario(String nombre, int id, String documento, String perfil) {
-        this.nombre = nombre;
+    public Usuario(String nombre,String apellido, String documento, String contraseña) {
         this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;    
         this.documento = documento;
+        this.contraseña = contraseña;
         this.perfil = perfil;
       
     }
@@ -36,6 +33,16 @@ public class Usuario {
         return perfil;
     }
 
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+    
+    
+
    
 
     
@@ -55,6 +62,15 @@ public class Usuario {
     public void setPerfil(String perfil) {
         this.perfil = perfil;
     }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+    
 
     
    

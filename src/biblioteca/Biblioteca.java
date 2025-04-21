@@ -1,6 +1,5 @@
 
 package biblioteca;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +13,10 @@ public class Biblioteca {
        Libro libro;
       private ArrayList<Libro> libros;
       
+      Usuario usuario;
       private ArrayList<Usuario> dbUsers;
+      
+      
 
     public Biblioteca() {
     
@@ -97,6 +99,71 @@ public class Biblioteca {
       
     }
     
+    public void registrarPrestamo(int idLibro) {
+     String SQLquery = "INSERT INTO prestamos (fecha_prestamo, idFK_libro, idFk_user) VALUES (NOW(), ?, ?)";
+    try {
+         PreparedStatement  ps = conexion.estableceConexcion().prepareStatement(SQLquery);
+         ps.setInt(1,idLibro);
+         ps.setInt(2, Sesion.idUsuario); 
+         
+         
+         ps.execute();
+         ps.close();
+         
+                  
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+    
+    
+    public  boolean guardarUser(Usuario nuevoUsuario){
+        
+        String SQLquery = "INSERT INTO users  (nombre, apellido, documento, contrasena, idFK_rol) VALUES (?, ?, ?, ?, ?)";
+        
+
+        
+        try{
+            
+             PreparedStatement  ps = conexion.estableceConexcion().prepareStatement(SQLquery);
+             
+             ps.setString(1, nuevoUsuario.getNombre());
+             ps.setString(2, nuevoUsuario.getApellido());
+             ps.setString(3, nuevoUsuario.getDocumento());
+             ps.setString(4, nuevoUsuario.getContraseña());
+             ps.setInt(5,2);
+              
+             boolean UsuarioaAgregado = ps.execute();
+             
+             if(UsuarioaAgregado){
+                 System.out.println("El usario no se guardo");
+                 return true;
+             }
+             System.out.println("Usuario guardado con exito");
+             return false;
+        }catch(Exception e){
+            System.out.println("Ocurrio un error"+e);
+            return false;
+        }
+    }
+    
+    public boolean usuarioExiste(String documento) {
+    boolean existe = false;
+    String SQLquery = "SELECT * FROM users WHERE documento = ?";
+    try {
+        PreparedStatement  ps = conexion.estableceConexcion().prepareStatement(SQLquery);
+        ps.setString(1, documento);
+       
+
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return existe;
+}
+    
+    
+    
     public boolean actualizarEstadoDeshabilitado(int idLibro){
         String SQLquery = "UPDATE libros SET deshabilitado = ? WHERE id = ?";
         
@@ -145,6 +212,8 @@ public class Biblioteca {
     }
         
     }
+    
+    
   
     
     
@@ -209,8 +278,15 @@ public class Biblioteca {
     }
     return libros;
 }
+   
+ 
+
+   
+}
 
       
-}
+
+
+
 
 

@@ -1,15 +1,25 @@
 
 package biblioteca;
 
-import java.awt.Font;
+
+import javax.swing.JOptionPane;
 
 
 public class IngresarUsers extends javax.swing.JFrame {
 
-    String Nombre, Id, Documento, Perfil;
+    String Nombre, Apellido, Documento, Contraseña;
+     private Biblioteca biblioteca;
+     private Usuario usuario;
     
+     
     public IngresarUsers() {
         initComponents();
+        TxtNombre.setText("");
+        TxtApellido.setText("");
+        TxtDocumento.setText("");
+        TxtContraseña.setText("");
+        this.biblioteca = new Biblioteca();
+        
        
     }
 
@@ -177,6 +187,11 @@ public class IngresarUsers extends javax.swing.JFrame {
 
         BtnRegister.setBackground(new java.awt.Color(0, 102, 204));
         BtnRegister.setText("Registrar");
+        BtnRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnRegisterActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 8;
@@ -192,9 +207,65 @@ public class IngresarUsers extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    public void GuardarUsuario()
+    {
+        Nombre = TxtNombre.getText();
+        Apellido = TxtApellido.getText();
+        Documento = TxtDocumento.getText();
+        char[] passwordArray = TxtContraseña.getPassword();
+        Contraseña = new String(passwordArray);
+
+
+       if (Nombre == null || Nombre.isEmpty() || Apellido == null || Apellido.isEmpty() ||  Documento == null || Documento.isEmpty() ||Contraseña == null || Contraseña.isEmpty()) 
+      {
+     JOptionPane.showMessageDialog(this, "INGRESE TODOS LOS DATOS");
+        return;  
+     }
+       
+       else if (Documento.length() > 10 || Documento.length() < 7)
+       {
+           JOptionPane.showMessageDialog(this, "INGRESE UN DOCUMENTO VALIDO");
+       }
+       
+       else if(Contraseña.length() < 5)
+       {
+           JOptionPane.showMessageDialog(this, "LA CONTRASEÑA NO PUEDE TENER MENOS DE 5 CARACTERES");
+       }
+       else
+       {
+           if (biblioteca.usuarioExiste(Documento)) {
+            JOptionPane.showMessageDialog(this, "¡El usuario con ese documento ya está registrado!", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }  
+           else
+           {
+               try{
+
+               Usuario nuevoUsuario = new Usuario(Nombre, Apellido, Documento,Contraseña);
+               biblioteca.guardarUser(nuevoUsuario);
+               JOptionPane.showMessageDialog(this, "Usuario guardado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+               FrmLogin Login = new FrmLogin();
+               Login.setVisible(true);
+               dispose();
+              
+    }catch(Exception e){
+        JOptionPane.showMessageDialog(this, "No se pudo guardar nada"+ e , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
+    }
+           }
+           
+         
+        
+       }
+  
+    }
     private void TxtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtApellidoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtApellidoActionPerformed
+
+    private void BtnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegisterActionPerformed
+       GuardarUsuario();
+    }//GEN-LAST:event_BtnRegisterActionPerformed
 
     /**
      * @param args the command line arguments

@@ -13,7 +13,7 @@ public class Cconexion {
    private String cadena;
    
    private String user="root";
-   private String pass="123456";
+   private String pass="12345";
    private String bd="biblioteca";
    private String ip="localhost";
    private  String puerto="3306";
@@ -25,23 +25,26 @@ public class Cconexion {
         this.bd="biblioteca";
         this.ip="localhost";
         this.puerto="3306";
-        this.cadena = "jdbc:mysql://"+ip+":"+puerto+"/"+bd;
+        this.cadena = "jdbc:mysql://"+ip+":"+puerto+"/"+bd+"?useSSL=false&serverTimezone=UTC";
+
     }
     
 
     
 
-    
-    public Connection estableceConexcion(){
-        try{
-           conectar = DriverManager.getConnection(cadena,user,pass);
-            System.out.println("Conexion exitosa!");
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, "No se pudo guardar nada"+ e , "Error"  ,  JOptionPane.INFORMATION_MESSAGE);
-        }
-           
-            return conectar;
+ public Connection estableceConexcion() {
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conectar = DriverManager.getConnection(
+            cadena, user, pass
+        );
+        System.out.println("Conexion exitosa!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "No se pudo guardar nada " + e, "Error", JOptionPane.INFORMATION_MESSAGE);
     }
+    return conectar;
+}
+
 
    public PreparedStatement PreparedStatement(String SQLquery) throws SQLException {
         if(conectar == null){
