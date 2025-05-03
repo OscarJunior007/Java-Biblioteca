@@ -7,7 +7,6 @@ public class Libro {
     private String titulo;
     private String autor;
     private String fechaPublicacion;
-    private int stock;
     private boolean disponible;
     private boolean perdido;
     private boolean daniado;
@@ -17,7 +16,7 @@ public class Libro {
         
     }
     
-    public Libro( String titulo, String autor, String fechaPublicacion, int stock, boolean disponible, boolean perdido, boolean daniado,boolean deshabilitado) {
+    public Libro( String titulo, String autor, String fechaPublicacion, boolean disponible, boolean perdido, boolean daniado,boolean deshabilitado) {
         this.titulo = titulo;
         this.autor = autor;
         this.fechaPublicacion = fechaPublicacion;
@@ -25,7 +24,7 @@ public class Libro {
         this.perdido = perdido;
         this.daniado = daniado;
         this.deshabilitado = deshabilitado;
-        this.stock = stock;
+        
     }
     
  
@@ -46,9 +45,7 @@ public class Libro {
         return fechaPublicacion;
     }
     
-    public int getStock(){
-        return stock;
-    }
+   
     public boolean isDisponible() {
         return disponible;
     }
@@ -81,9 +78,7 @@ public class Libro {
         this.fechaPublicacion = fechaPublicacion;
     }
     
-    public void setStock(int stock){
-        this.stock = stock;
-    }
+   
     
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;

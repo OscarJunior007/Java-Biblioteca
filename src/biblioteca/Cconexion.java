@@ -26,7 +26,6 @@ public class Cconexion {
         this.ip="localhost";
         this.puerto="3306";
         this.cadena = "jdbc:mysql://"+ip+":"+puerto+"/"+bd+"?useSSL=false&serverTimezone=UTC";
-
     }
     
 

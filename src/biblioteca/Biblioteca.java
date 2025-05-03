@@ -28,10 +28,6 @@ public class Biblioteca {
     }
       
     
-//    public Biblioteca(ArrayList<Libro> libros, ArrayList<Usuario> dbUsers) {
-//        this.libros = new ArrayList<>();
-//        this.dbUsers = new ArrayList<>();
-//    }
 
     public ArrayList<Libro> getLibros() {
         return libros;
@@ -53,7 +49,7 @@ public class Biblioteca {
     
     public  boolean guardarLibro(Libro nuevoLibro){
         
-        String SQLquery = "INSERT INTO libros (titulo, autor, fechaPublicacion, stock, disponible, perdido, daniado,deshabilitado) VALUES (?, ?, ?, ?, ?, ?,?,?)";
+        String SQLquery = "INSERT INTO libros (titulo, autor, fechaPublicacion, disponible, perdido, daniado,deshabilitado) VALUES (?, ?, ?, ?, ?, ?,?)";
         
 //        System.out.println("Número de libros antes de agregar: " + libros.size());
         
@@ -63,7 +59,6 @@ public class Biblioteca {
              ps.setString(1, nuevoLibro.getTitulo());
              ps.setString(2,nuevoLibro.getAutor());
              ps.setString(3, nuevoLibro.getfechaPublicacion());
-             ps.setInt(4,nuevoLibro.getStock());
              ps.setInt(5,nuevoLibro.isDisponible()?1:0);
              ps.setInt(6,nuevoLibro.isPerdido()?1:0);
              ps.setInt(7,nuevoLibro.isDaniado()?1:0);
@@ -82,20 +77,7 @@ public class Biblioteca {
             System.out.println("Ocurrio un error"+e);
             return false;
         }
-//        
 
-
-
-//        for(int i=0; i<libros.size();i++ ){
-//            if(libros.get(i).getId().equals(nuevoLibro.getId())){
-//                System.out.println("El libro ya existe");
-//                return false;
-//            }
-//        }
-//        
-//        libros.add(nuevoLibro);
-//        System.out.println("Libro registrado con exito!");
-//        return true;
       
     }
     
@@ -105,8 +87,6 @@ public class Biblioteca {
          PreparedStatement  ps = conexion.estableceConexcion().prepareStatement(SQLquery);
          ps.setInt(1,idLibro);
          ps.setInt(2, Sesion.idUsuario); 
-         
-         
          ps.execute();
          ps.close();
          
@@ -213,19 +193,7 @@ public class Biblioteca {
         
     }
     
-    
-  
-    
-    
-    
-  
-//    public boolean eliminarLibro(String id){
-//        String SQLquery = "";
-//    }
-    
-    
-    
-    
+   
    public ArrayList<Libro> obtenerLibros() {
     String SQLquery = "SELECT * FROM libros where deshabilitado != 1";
     libros.clear(); 
@@ -239,7 +207,6 @@ public class Biblioteca {
             libro.setTitulo(response.getString("titulo"));
             libro.setAutor(response.getString("autor"));
             libro.setfechaPublicacion(response.getString("fechaPublicacion"));
-            libro.setStock(response.getInt("stock"));
             libro.setDisponible(response.getBoolean("disponible"));
             libro.setPerdido(response.getBoolean("perdido"));
             libro.setDaniado(response.getBoolean("daniado"));
