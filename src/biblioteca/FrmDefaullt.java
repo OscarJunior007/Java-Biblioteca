@@ -51,7 +51,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
                         libroRecibido.get(i).getId(),
                         libroRecibido.get(i).getTitulo(),
                         libroRecibido.get(i).getAutor(),
-                        libroRecibido.get(i).getfechaPublicacion(),
+                        libroRecibido.get(i).getFechaPublicacion(),
                         false
                         
                     });
@@ -68,7 +68,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
     
  
     
-    public void prestarLibros() {
+    /*public void prestarLibros() {
     DefaultTableModel modelo = (DefaultTableModel) TableInfo.getModel();
     
      int librosSeleccionados = 0;
@@ -103,7 +103,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
     }
 
     JOptionPane.showMessageDialog(this, "¡Libros prestados exitosamente!");
-}
+}*/
 
   
       
@@ -230,7 +230,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
 
     private void BtnPrestarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrestarLibroActionPerformed
 
-        prestarLibros();
+        
     }//GEN-LAST:event_BtnPrestarLibroActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed

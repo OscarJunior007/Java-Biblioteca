@@ -1,29 +1,27 @@
 
 package biblioteca;
 
+import java.util.Date;
+
 
 public class Libro {
     private int id;
     private String titulo;
     private String autor;
-    private String fechaPublicacion;
-    private boolean disponible;
-    private boolean perdido;
-    private boolean daniado;
-    private boolean deshabilitado;
+    private String categoria;
+    private Date fechaPublicacion;
+    
     
     public Libro() {
         
     }
     
-    public Libro( String titulo, String autor, String fechaPublicacion, boolean disponible, boolean perdido, boolean daniado,boolean deshabilitado) {
+    public Libro( String titulo, String autor, String categoria,Date FechaPublicacion) {
         this.titulo = titulo;
         this.autor = autor;
+        this.categoria=categoria;
         this.fechaPublicacion = fechaPublicacion;
-        this.disponible = disponible;
-        this.perdido = perdido;
-        this.daniado = daniado;
-        this.deshabilitado = deshabilitado;
+      
         
     }
     
@@ -41,27 +39,14 @@ public class Libro {
         return autor;
     }
 
-    public String getfechaPublicacion() {
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public Date getFechaPublicacion() {
         return fechaPublicacion;
     }
-    
-   
-    public boolean isDisponible() {
-        return disponible;
-    }
-
-    public boolean isPerdido() {
-        return perdido;
-    }
-
-    public boolean isDaniado() {
-        return daniado;
-    }
-    
-     public boolean isdeshabilitado() {
-        return deshabilitado;
-    }
-
+ 
     public void setId(int id) {
         this.id = id;
     }
@@ -74,31 +59,14 @@ public class Libro {
         this.autor = autor;
     }
 
-    public void setfechaPublicacion(String fechaPublicacion) {
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setFechaPublicacion(Date fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
-    
+
    
-    
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
-    }
-
-    public void setPerdido(boolean perdido) {
-        this.perdido = perdido;
-    }
-
-    public void setDaniado(boolean daniado) {
-        this.daniado = daniado;
-    }
-    
-    public void setdeshabilitado(boolean deshabilitado) {
-        this.deshabilitado = deshabilitado;
-    }
-    
-//    @Override
-//    public String toString() {
-//        return "ID: " + id + ", Título: " + titulo + ", Autor: " + autor + ", Año: " + fechaPublicacion;
-//    }
     
 }

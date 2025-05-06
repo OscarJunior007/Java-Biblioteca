@@ -17,11 +17,11 @@ public class FrmLibrosPrestado extends javax.swing.JFrame {
     public FrmLibrosPrestado() {
         initComponents();
         this.biblioteca =  new Biblioteca();
-        this.libroRecibido = biblioteca.obtenerLibrosDeshabilitados();
-        mostrarInfo();
+       /* this.libroRecibido = biblioteca.obtenerLibrosDeshabilitados();*/
+       // mostrarInfo();
     }
     
-    public void mostrarInfo(){
+    /*public void mostrarInfo(){
         this.libroRecibido = biblioteca.obtenerLibrosDeshabilitados();
     
         try{
@@ -44,7 +44,7 @@ public class FrmLibrosPrestado extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(this, "No se pudo guardar nada"+ e , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
        }
       
-    }
+    }*/
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -28,8 +28,8 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
         initComponents();
         TxtId.setText("");
         this.biblioteca =  new Biblioteca();
-        this.libroRecibido = biblioteca.obtenerLibrosDeshabilitados();
-        mostrarInfo();
+       // this.libroRecibido = biblioteca.obtenerLibrosDeshabilitados();
+       // mostrarInfo();
     }
 
     /**
@@ -153,7 +153,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
      
-    public void mostrarInfo(){
+   /* public void mostrarInfo(){
         this.libroRecibido = biblioteca.obtenerLibrosDeshabilitados();
     
         try{
@@ -190,7 +190,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
             
         }
         return false;
-    }
+    }*/
     
     private void BtnVentanaBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVentanaBibliotecaActionPerformed
         FrmBiblioteca v1 = new FrmBiblioteca();
@@ -200,7 +200,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnVentanaBibliotecaActionPerformed
 
     private void BtnHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHabilitarActionPerformed
-        String id = TxtId.getText();
+       /* String id = TxtId.getText();
         if(id.isEmpty()){
             JOptionPane.showMessageDialog(this, "Ingresa algun ID" , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
         }
@@ -219,12 +219,12 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
              mostrarInfo();
         }catch(Exception e ){
               JOptionPane.showMessageDialog(this, "No se pudo habilitar el libro el libro"+e , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
-        }
+        }*/
         
     }//GEN-LAST:event_BtnHabilitarActionPerformed
 
     private void BtnDeshabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDeshabilitarActionPerformed
-        String id = TxtId.getText();
+        /*String id = TxtId.getText();
         if(id == ""){
             JOptionPane.showMessageDialog(this, "Ingresa algun ID" , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
         }
@@ -246,7 +246,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
              mostrarInfo();
         }catch(Exception e ){
               JOptionPane.showMessageDialog(this, "No se pudo deshabilitar el libro"+e , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
-        }
+        }*/
     }//GEN-LAST:event_BtnDeshabilitarActionPerformed
 
     /**

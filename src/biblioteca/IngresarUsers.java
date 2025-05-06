@@ -2,6 +2,8 @@
 package biblioteca;
 
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 
@@ -10,6 +12,7 @@ public class IngresarUsers extends javax.swing.JFrame {
     String Nombre, Apellido, Documento, Contraseña;
      private Biblioteca biblioteca;
      private Usuario usuario;
+     
     
      
     public IngresarUsers() {
@@ -207,7 +210,6 @@ public class IngresarUsers extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     public void GuardarUsuario()
     {
         Nombre = TxtNombre.getText();
@@ -260,7 +262,7 @@ public class IngresarUsers extends javax.swing.JFrame {
   
     }
     private void TxtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtApellidoActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_TxtApellidoActionPerformed
 
     private void BtnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnRegisterActionPerformed
