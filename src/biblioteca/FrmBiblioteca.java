@@ -1,131 +1,126 @@
-
 package biblioteca;
+
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 
 public class FrmBiblioteca extends javax.swing.JFrame {
-    
+
     FrmVentanaDeshabilitar v2;
-    String titulo,autor,categoria;
+    String titulo, autor, categoria;
     int stock;
-    String[] encabezado = {"Id","Titulo","Autor","Feca de pubicacion","Disponible"};
+    String[] encabezado = {"Id", "Titulo", "Autor", "categoria", "Fecha de pubicacion",};
     ArrayList<Libro> libroRecibido;
     Cconexion conexion = new Cconexion();
     private Biblioteca biblioteca;
     private Libro libro;
 
-    public void setV2(FrmVentanaDeshabilitar v2){
+    public void setV2(FrmVentanaDeshabilitar v2) {
         this.v2 = v2;
     }
-    
+
     public FrmBiblioteca() {
         initComponents();
         TxtAutorLibro.setText("");
         TxtTituloLibro.setText("");
         this.biblioteca = new Biblioteca();
-        this.libro =  new Libro();
+        this.libro = new Libro();
         this.libroRecibido = biblioteca.obtenerLibros();
         llenarComboCategoria();
         mostrarInfo();
-    
+
     }
-    
-    
-    
-   public void llenarComboCategoria() {
-    String SQLquery = "CALL mostrar_categoria()";
-    comboCategoria.removeAllItems();
-    comboCategoria.addItem("Seleccione...");
-    
 
-    try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
-         ResultSet response = ps.executeQuery()) {
+    public void llenarComboCategoria() {
+        String SQLquery = "CALL mostrar_categoria()";
+        comboCategoria.removeAllItems();
+        comboCategoria.addItem("Seleccione...");
 
-        while (response.next()) {
-            String categoria = response.getString("categoria");
-            comboCategoria.addItem(categoria);
+        try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery); ResultSet response = ps.executeQuery()) {
+
+            while (response.next()) {
+                String categoria = response.getString("categoria");
+                comboCategoria.addItem(categoria);
+            }
+
+        } catch (Exception e) {
+            System.out.println("No se pudo traer las categorías: " + e.getMessage());
+        }
+    }
+
+    public void mostrarInfo() {
+        this.libroRecibido = biblioteca.obtenerLibros();
+        try {
+
+            DefaultTableModel modelo = new DefaultTableModel();
+            modelo.setColumnIdentifiers(encabezado);
+            for (int i = 0; i < libroRecibido.size(); i++) {
+                modelo.addRow(new Object[]{
+                    libroRecibido.get(i).getId(),
+                    libroRecibido.get(i).getTitulo(),
+                    libroRecibido.get(i).getAutor(),
+                    libroRecibido.get(i).getCategoria(),
+                    libroRecibido.get(i).getFechaPublicacion(),});
+
+            }
+
+            TableInfo.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "No se pudo guardar nada" + e, "Error", JOptionPane.INFORMATION_MESSAGE);
         }
 
-    } catch (Exception e) {
-        System.out.println("No se pudo traer las categorías: " + e.getMessage());
     }
-}
 
-   
-   
-    public void mostrarInfo(){
-        this.libroRecibido = biblioteca.obtenerLibros();
-        try{
-           
-         
-             DefaultTableModel modelo =  new DefaultTableModel();
-             modelo.setColumnIdentifiers(encabezado);
-                for(int i=0; i<libroRecibido.size();i++){
-                    modelo.addRow(new Object[]{
-                        libroRecibido.get(i).getId(),
-                        libroRecibido.get(i).getTitulo(),
-                        libroRecibido.get(i).getAutor(),
-                        libroRecibido.get(i).getCategoria(),
-                        libroRecibido.get(i).getFechaPublicacion(),
-
-                    });
-                     
-                }
-            
-        TableInfo.setModel(modelo);
-       }catch(Exception e){
-           JOptionPane.showMessageDialog(this, "No se pudo guardar nada"+ e , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
-       }
-      
-    }
     public void guardarLibro() {
-    titulo = TxtTituloLibro.getText();
-    autor = TxtAutorLibro.getText();
-    stock = ((Integer) SpinerStock.getValue()).intValue();
-    categoria = (String) comboCategoria.getSelectedItem();
-    Date fechaSeleccionada = CalendarFechaPublicacion.getDate();
+        titulo = TxtTituloLibro.getText();
+        autor = TxtAutorLibro.getText();
+        stock = ((Integer) SpinerStock.getValue()).intValue();
+        categoria = (String) comboCategoria.getSelectedItem();
+        Date fechaSeleccionada = (Date) CalendarFechaPublicacion.getDate();
+        stock = Integer.parseInt(SpinerStock.getValue().toString());
 
-    if (titulo.isEmpty() || autor.isEmpty() || fechaSeleccionada == null || categoria == null || categoria.equals("Seleccione...")) {
-        JOptionPane.showMessageDialog(this, "Debes ingresar todos los datos.", "Error", JOptionPane.INFORMATION_MESSAGE);
-        return;
-    }
-
-    java.sql.Date fecha = new java.sql.Date(fechaSeleccionada.getTime());
-
-    try {
-        Libro nuevoLibro = new Libro(titulo, autor, categoria, fecha);
-        biblioteca.guardarLibro(nuevoLibro);
-        JOptionPane.showMessageDialog(this, "Libro guardado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "No se pudo guardar nada: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
-
+        if (titulo.isEmpty() || autor.isEmpty() || fechaSeleccionada == null || categoria.equals("Seleccione...")) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar todos los datos.", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
        
-    public void deshabilitarHabilitarLibro(){
-        
+
+        java.sql.Date fecha = new java.sql.Date(fechaSeleccionada.getTime());
+
+        try {
+            Libro nuevoLibro = new Libro(titulo, autor, categoria, fechaSeleccionada, stock);
+            biblioteca.guardarLibro(nuevoLibro);
+            JOptionPane.showMessageDialog(this, "Libro guardado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "No se pudo guardar nada: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
-    
+
+    public void deshabilitarHabilitarLibro() {
+
+    }
+
 //    public void eliminarLibro(){
 //        try{
 //            id = TxtId.getText();
-//            
-//            
-//           
-//            
+//
+//
+//
+//
 //            if(!libroEliminado){
 //             JOptionPane.showMessageDialog(this, "Libro no encontrado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 //             return;
 //        }
 //        JOptionPane.showMessageDialog(this, "Libro eliminado", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-//            
+//
 //        }catch (Exception e){
 //            JOptionPane.showMessageDialog(this, "No se pudo eliminar nada"+ e , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
 //        }
@@ -214,7 +209,8 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Fecha Publicacion");
 
-        BtnSalir.setText("jButton1");
+        BtnSalir.setBackground(new java.awt.Color(255, 0, 51));
+        BtnSalir.setText("Salir");
         BtnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnSalirActionPerformed(evt);
@@ -226,46 +222,43 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BtnDeshabilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(263, 263, 263)
-                        .addComponent(jLabel4)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TxtTituloLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TxtAutorLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(263, 263, 263)
+                                .addComponent(jLabel4)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(TxtTituloLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TxtAutorLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(39, 39, 39)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(CalendarFechaPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(377, 377, 377))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(SpinerStock, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(BtnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(83, 83, 83)))
-                                .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(CalendarFechaPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(377, 377, 377)))))
-                .addGap(38, 38, 38))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(BtnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BtnDeshabilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,26 +274,26 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                         .addComponent(TxtTituloLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(CalendarFechaPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(28, 28, 28)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(SpinerStock, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TxtAutorLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(SpinerStock, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(TxtAutorLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(BtnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnDeshabilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5))))
+                        .addGap(41, 41, 41)
+                        .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnDeshabilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BtnSalir))
+                .addGap(5, 5, 5))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -311,9 +304,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -322,7 +313,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
     private void BtnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGuardarActionPerformed
         guardarLibro();
         mostrarInfo();
-       
+
     }//GEN-LAST:event_BtnGuardarActionPerformed
 
     private void BtnDeshabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDeshabilitarActionPerformed
@@ -345,7 +336,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

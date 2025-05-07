@@ -23,6 +23,11 @@ public class FrmLogin extends javax.swing.JFrame {
         TxtContraseña.setText("");
         this.biblioteca = new Biblioteca();
         this.sesion = new Sesion();
+        getRootPane().setDefaultButton(BtnIngresar);
+        interactuar();
+        
+
+
         
     }
 
@@ -171,7 +176,7 @@ public class FrmLogin extends javax.swing.JFrame {
          
          if(rol==1)
          {
-             JOptionPane.showMessageDialog(this, "INGRESO EXITOSO");
+             
              FrmBiblioteca inicioAdmin = new FrmBiblioteca();
              inicioAdmin.setVisible(true);
              int idUsuario = rs.getInt("id"); 
@@ -181,7 +186,7 @@ public class FrmLogin extends javax.swing.JFrame {
          }
          else if(rol==2)
          {
-             JOptionPane.showMessageDialog(this, "INGRESO EXITOSO");
+            
              FrmDefaullt inicio = new FrmDefaullt();
              inicio.setVisible(true);
              int idUsuario = rs.getInt("id"); 
@@ -206,7 +211,26 @@ public class FrmLogin extends javax.swing.JFrame {
          
         } 
     }//GEN-LAST:event_BtnIngresarActionPerformed
+    
+    public void interactuar()
+    {
+        TxtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+         public void keyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_DOWN) {
+            TxtContraseña.requestFocus(); // pasa el foco al campo de contraseña
+        }
+    }
+});
+        TxtContraseña.addKeyListener(new java.awt.event.KeyAdapter() {
+    public void keyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_UP) {
+            TxtDocumento.requestFocus(); // vuelve al campo documento
+        }
+    }
+});
 
+        
+    }
     /**
      * @param args the command line arguments
      */

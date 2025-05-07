@@ -1,31 +1,27 @@
-
 package biblioteca;
-
 import java.util.Date;
 
-
 public class Libro {
+
     private int id;
     private String titulo;
     private String autor;
     private String categoria;
     private Date fechaPublicacion;
-    
-    
+    private int stock;
+
     public Libro() {
-        
+
     }
-    
-    public Libro( String titulo, String autor, String categoria,Date FechaPublicacion) {
+
+    public Libro(String titulo, String autor, String categoria, Date FechaPublicacion, int stock) {
         this.titulo = titulo;
         this.autor = autor;
-        this.categoria=categoria;
+        this.categoria = categoria;
         this.fechaPublicacion = fechaPublicacion;
-      
-        
+        this.stock = stock;
+
     }
-    
- 
 
     public int getId() {
         return id;
@@ -46,7 +42,7 @@ public class Libro {
     public Date getFechaPublicacion() {
         return fechaPublicacion;
     }
- 
+
     public void setId(int id) {
         this.id = id;
     }
@@ -67,6 +63,4 @@ public class Libro {
         this.fechaPublicacion = fechaPublicacion;
     }
 
-   
-    
 }

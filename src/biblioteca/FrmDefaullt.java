@@ -1,4 +1,3 @@
-
 package biblioteca;
 
 import java.awt.event.ActionEvent;
@@ -7,67 +6,63 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class FrmDefaullt extends javax.swing.JFrame {
 
-    String[] encabezado = {"Id","Titulo","Autor","Feca de pubicacion","Seleccione"};
+    String[] encabezado = {"Id", "Titulo", "Autor", "Feca de pubicacion", "Seleccione"};
     ArrayList<Libro> libroRecibido;
-    DefaultTableModel modelo =  new DefaultTableModel();
-    
+    DefaultTableModel modelo = new DefaultTableModel();
+
     private Biblioteca biblioteca;
     private Libro libro;
-    
+
     public FrmDefaullt() {
         initComponents();
-         this.biblioteca = new Biblioteca();
-        this.libro =  new Libro();
+        this.biblioteca = new Biblioteca();
+        this.libro = new Libro();
         this.libroRecibido = biblioteca.obtenerLibros();
         mostrarInfo();
 
-       
-    } 
-    public void mostrarInfo(){
+    }
+
+    public void mostrarInfo() {
         this.libroRecibido = biblioteca.obtenerLibros();
-        try{
-           
-             DefaultTableModel modelo = new DefaultTableModel() {
-            
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 4;
+        try {
+
+            DefaultTableModel modelo = new DefaultTableModel() {
+
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return column == 4;
+                }
+
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    if (columnIndex == 4) {
+                        return Boolean.class;
+                    }
+                    return super.getColumnClass(columnIndex);
+                }
+            };
+            modelo.setColumnIdentifiers(encabezado);
+            for (int i = 0; i < libroRecibido.size(); i++) {
+                modelo.addRow(new Object[]{
+                    libroRecibido.get(i).getId(),
+                    libroRecibido.get(i).getTitulo(),
+                    libroRecibido.get(i).getAutor(),
+                    libroRecibido.get(i).getFechaPublicacion(),
+                    false
+
+                });
+
             }
 
-            @Override
-            public Class<?> getColumnClass(int columnIndex) {
-                if (columnIndex == 4) {
-                    return Boolean.class;
-                }
-                return super.getColumnClass(columnIndex);
-            }
-        };         
-             modelo.setColumnIdentifiers(encabezado);
-                for(int i=0; i<libroRecibido.size();i++){
-                    modelo.addRow(new Object[]{
-                        libroRecibido.get(i).getId(),
-                        libroRecibido.get(i).getTitulo(),
-                        libroRecibido.get(i).getAutor(),
-                        libroRecibido.get(i).getFechaPublicacion(),
-                        false
-                        
-                    });
-                     
-                }
-            
-        TableInfo.setModel(modelo);
-       }catch(Exception e){
-           JOptionPane.showMessageDialog(this, "No se pudo guardar nada"+ e , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
-       }
-      
+            TableInfo.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "No se pudo guardar nada" + e, "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }
-    
-    
- 
-    
+
     /*public void prestarLibros() {
     DefaultTableModel modelo = (DefaultTableModel) TableInfo.getModel();
     
@@ -104,11 +99,6 @@ public class FrmDefaullt extends javax.swing.JFrame {
 
     JOptionPane.showMessageDialog(this, "¡Libros prestados exitosamente!");
 }*/
-
-  
-      
-     
- 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -230,7 +220,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
 
     private void BtnPrestarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrestarLibroActionPerformed
 
-        
+
     }//GEN-LAST:event_BtnPrestarLibroActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed
@@ -284,4 +274,3 @@ public class FrmDefaullt extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner1;
     // End of variables declaration//GEN-END:variables
 }
-

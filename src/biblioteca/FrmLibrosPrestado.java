@@ -1,4 +1,3 @@
-
 package biblioteca;
 
 import java.util.ArrayList;
@@ -10,17 +9,19 @@ import javax.swing.table.DefaultTableModel;
  * @author perea
  */
 public class FrmLibrosPrestado extends javax.swing.JFrame {
- private FrmBiblioteca v1;
+
+    private FrmBiblioteca v1;
     private Biblioteca biblioteca;
     ArrayList<Libro> libroRecibido;
-    String[] encabezado = {"Id","Titulo","Autor","Fecha de publicacion"};
+    String[] encabezado = {"Id", "Titulo", "Autor", "Fecha de publicacion"};
+
     public FrmLibrosPrestado() {
         initComponents();
-        this.biblioteca =  new Biblioteca();
-       /* this.libroRecibido = biblioteca.obtenerLibrosDeshabilitados();*/
-       // mostrarInfo();
+        this.biblioteca = new Biblioteca();
+        /* this.libroRecibido = biblioteca.obtenerLibrosDeshabilitados();*/
+        // mostrarInfo();
     }
-    
+
     /*public void mostrarInfo(){
         this.libroRecibido = biblioteca.obtenerLibrosDeshabilitados();
     
@@ -45,7 +46,6 @@ public class FrmLibrosPrestado extends javax.swing.JFrame {
        }
       
     }*/
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
