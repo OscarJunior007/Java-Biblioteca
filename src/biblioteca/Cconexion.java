@@ -14,7 +14,7 @@ public class Cconexion {
    
    private String user="root";
    private String pass="12345";
-   private String bd="biblioteca";
+   private String bd="BIBLIOTECA";
    private String ip="localhost";
    private  String puerto="3306";
    
@@ -22,7 +22,7 @@ public class Cconexion {
         this.conectar = null;
         this.user="root";
         this.pass="12345";
-        this.bd="biblioteca";
+        this.bd="BIBLIOTECA";
         this.ip="localhost";
         this.puerto="3306";
         this.cadena = "jdbc:mysql://"+ip+":"+puerto+"/"+bd+"?useSSL=false&serverTimezone=UTC";
