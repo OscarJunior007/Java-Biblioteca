@@ -44,6 +44,11 @@ public class Libro {
         return fechaPublicacion;
     }
 
+    public int getStock() {
+        return stock;
+    }
+    
+
     public void setId(int id) {
         this.id = id;
     }
@@ -63,5 +68,10 @@ public class Libro {
     public void setFechaPublicacion(Date fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+    
 
 }

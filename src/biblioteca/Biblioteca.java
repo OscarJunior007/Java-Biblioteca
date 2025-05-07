@@ -41,15 +41,16 @@ public class Biblioteca {
 
     public boolean guardarLibro(Libro nuevoLibro) {
 
-        String SQLquery = "CALL guardar_libros(?,?,?,?)";
+        String SQLquery = "CALL guardar_libros(?,?,?,?,?)";
 
         try {
-           
+          
             PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
             ps.setString(1, nuevoLibro.getTitulo());
             ps.setString(2, nuevoLibro.getAutor());
             ps.setString(3, nuevoLibro.getCategoria());
             ps.setDate(4, new java.sql.Date(nuevoLibro.getFechaPublicacion().getTime()));
+            ps.setInt(5,nuevoLibro.getStock());
 
 
             boolean libroAgregado = ps.execute();
@@ -79,7 +80,8 @@ public class Biblioteca {
                 libro.setTitulo(response.getString("titulo"));
                 libro.setAutor(response.getString("autor"));
                 libro.setCategoria(response.getString("categoria"));
-               libro.setFechaPublicacion(response.getDate("fecha_publicacion"));
+                libro.setFechaPublicacion(response.getDate("fecha_publicacion"));
+                libro.setStock(response.getInt("stock"));
 
                 libros.add(libro);
             }

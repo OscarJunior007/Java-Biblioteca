@@ -18,7 +18,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
     String titulo, autor, categoria;
     Date fechaPublicacion;
     int stock;
-    String[] encabezado = {"Id", "Titulo", "Autor", "categoria", "Fecha de pubicacion",};
+    String[] encabezado = {"Id", "Titulo", "Autor", "categoria", "Fecha de pubicacion","stock"};
     ArrayList<Libro> libroRecibido;
     Cconexion conexion = new Cconexion();
     private Biblioteca biblioteca;
@@ -69,7 +69,10 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                     libroRecibido.get(i).getTitulo(),
                     libroRecibido.get(i).getAutor(),
                     libroRecibido.get(i).getCategoria(),
-                    libroRecibido.get(i).getFechaPublicacion(),});
+                    libroRecibido.get(i).getFechaPublicacion(),
+                    libroRecibido.get(i).getStock()
+                });
+                    
 
             }
 
