@@ -51,6 +51,7 @@ public class Biblioteca {
             ps.setString(3, nuevoLibro.getCategoria());
             ps.setDate(4, new java.sql.Date(nuevoLibro.getFechaPublicacion().getTime()));
 
+
             boolean libroAgregado = ps.execute();
 
             if (libroAgregado) {
@@ -78,7 +79,8 @@ public class Biblioteca {
                 libro.setTitulo(response.getString("titulo"));
                 libro.setAutor(response.getString("autor"));
                 libro.setCategoria(response.getString("categoria"));
-                libro.setFechaPublicacion(response.getDate("fecha_publicacion"));
+               libro.setFechaPublicacion(response.getDate("fecha_publicacion"));
+
                 libros.add(libro);
             }
         } catch (Exception e) {

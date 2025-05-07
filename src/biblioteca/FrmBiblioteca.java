@@ -1,10 +1,10 @@
 package biblioteca;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,6 +16,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
 
     FrmVentanaDeshabilitar v2;
     String titulo, autor, categoria;
+    Date fechaPublicacion;
     int stock;
     String[] encabezado = {"Id", "Titulo", "Autor", "categoria", "Fecha de pubicacion",};
     ArrayList<Libro> libroRecibido;
@@ -84,19 +85,16 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         autor = TxtAutorLibro.getText();
         stock = ((Integer) SpinerStock.getValue()).intValue();
         categoria = (String) comboCategoria.getSelectedItem();
-        Date fechaSeleccionada = (Date) CalendarFechaPublicacion.getDate();
+        Date fechaSeleccionada = CalendarFechaPublicacion.getDate();
         stock = Integer.parseInt(SpinerStock.getValue().toString());
 
-        if (titulo.isEmpty() || autor.isEmpty() || fechaSeleccionada == null || categoria.equals("Seleccione...")) {
+        if (titulo.isEmpty() || autor.isEmpty() || categoria.equals("Seleccione...")) {
             JOptionPane.showMessageDialog(this, "Debes ingresar todos los datos.", "Error", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-       
-
-        java.sql.Date fecha = new java.sql.Date(fechaSeleccionada.getTime());
-
+      
         try {
-            Libro nuevoLibro = new Libro(titulo, autor, categoria, fechaSeleccionada, stock);
+            Libro nuevoLibro = new Libro(titulo, autor, categoria, fechaPublicacion, stock);
             biblioteca.guardarLibro(nuevoLibro);
             JOptionPane.showMessageDialog(this, "Libro guardado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
