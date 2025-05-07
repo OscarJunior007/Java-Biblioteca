@@ -94,7 +94,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         }
       
         try {
-            Libro nuevoLibro = new Libro(titulo, autor, categoria, fechaPublicacion, stock);
+            Libro nuevoLibro = new Libro(titulo, autor, categoria, fechaSeleccionada, stock);
             biblioteca.guardarLibro(nuevoLibro);
             JOptionPane.showMessageDialog(this, "Libro guardado con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
