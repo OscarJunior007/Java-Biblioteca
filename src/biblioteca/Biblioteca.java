@@ -44,15 +44,14 @@ public class Biblioteca {
         String SQLquery = "CALL guardar_libros(?,?,?,?,?)";
 
         try {
-          
+
             PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
             ps.setString(1, nuevoLibro.getTitulo());
             ps.setString(2, nuevoLibro.getAutor());
             ps.setString(3, nuevoLibro.getCategoria());
             ps.setDate(4, new java.sql.Date(nuevoLibro.getFechaPublicacion().getTime()));
-            ps.setInt(5,nuevoLibro.getStock());
-
-
+            ps.setInt(5, nuevoLibro.getStock());
+           
             boolean libroAgregado = ps.execute();
 
             if (libroAgregado) {
