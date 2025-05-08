@@ -14,15 +14,36 @@ public class FrmDefaullt extends javax.swing.JFrame {
 
     private Biblioteca biblioteca;
     private Libro libro;
-
+    private int idLibro;
     public FrmDefaullt() {
         initComponents();
         this.biblioteca = new Biblioteca();
         this.libro = new Libro();
         this.libroRecibido = biblioteca.obtenerLibros();
+        idLibro = 0;
         mostrarInfo();
 
     }
+    
+    public void recorrerTabla() {
+    DefaultTableModel modelo = (DefaultTableModel) TableInfo.getModel(); 
+
+    for (int i = 0; i < modelo.getRowCount(); i++) {
+        boolean seleccion = (boolean) modelo.getValueAt(i, 4);
+
+        if (seleccion) {
+            int idSeleccionado = (int) modelo.getValueAt(i, 0);
+
+            System.out.println("ID seleccionado: " + idSeleccionado);
+            idLibro = idSeleccionado;
+        }
+        
+        if(idLibro != 0 ){
+            FrmRealizarPrestamo vPrestamo = new FrmRealizarPrestamo(idLibro);
+            vPrestamo.setVisible(true);
+        }
+    }
+}
 
     public void mostrarInfo() {
         this.libroRecibido = biblioteca.obtenerLibros();
@@ -55,6 +76,10 @@ public class FrmDefaullt extends javax.swing.JFrame {
                 });
 
             }
+             
+            modelo.addTableModelListener(e->{
+                    //PEGAS LO QUE TE ENVIE POR DISCORD AQUI
+            });
 
             TableInfo.setModel(modelo);
         } catch (Exception e) {
@@ -62,6 +87,8 @@ public class FrmDefaullt extends javax.swing.JFrame {
         }
 
     }
+    
+    
 
     /*public void prestarLibros() {
     DefaultTableModel modelo = (DefaultTableModel) TableInfo.getModel();
@@ -220,7 +247,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
 
     private void BtnPrestarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrestarLibroActionPerformed
 
-
+            recorrerTabla();
     }//GEN-LAST:event_BtnPrestarLibroActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed

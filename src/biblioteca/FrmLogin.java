@@ -14,6 +14,7 @@ public class FrmLogin extends javax.swing.JFrame {
  private Biblioteca biblioteca;
  private Usuario usuario;
  private Sesion sesion;
+ private int idUsuario;
  Cconexion conexion = new Cconexion();
     
      
@@ -26,8 +27,6 @@ public class FrmLogin extends javax.swing.JFrame {
         getRootPane().setDefaultButton(BtnIngresar);
         interactuar();
         
-
-
         
     }
 
@@ -179,7 +178,7 @@ public class FrmLogin extends javax.swing.JFrame {
              
              FrmBiblioteca inicioAdmin = new FrmBiblioteca();
              inicioAdmin.setVisible(true);
-             int idUsuario = rs.getInt("id"); 
+             idUsuario = rs.getInt("id"); 
              Sesion.idUsuario = idUsuario;
              System.out.println("Usuario logueado ID: " + Sesion.idUsuario);
              dispose();
