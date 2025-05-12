@@ -1,5 +1,6 @@
 package biblioteca;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,20 +49,18 @@ public class Biblioteca {
         try {
 
             PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
-            
-            System.out.println("stock "+nuevoLibro.getStock());
-            
-            for(int i =0; i<nuevoLibro.getStock(); i++){
-                    ps.setString(1, nuevoLibro.getTitulo());
-                    ps.setString(2, nuevoLibro.getAutor());
-                    ps.setString(3, nuevoLibro.getCategoria());
-                    ps.setDate(4, new java.sql.Date(nuevoLibro.getFechaPublicacion().getTime()));
-                    ps.setInt(5,i);
-                    ps.setString(6,UUID.randomUUID().toString().toUpperCase().substring(0,6));
-                    ps.execute();
+
+            System.out.println("stock " + nuevoLibro.getStock());
+
+            for (int i = 0; i < nuevoLibro.getStock(); i++) {
+                ps.setString(1, nuevoLibro.getTitulo());
+                ps.setString(2, nuevoLibro.getAutor());
+                ps.setString(3, nuevoLibro.getCategoria());
+                ps.setDate(4, new java.sql.Date(nuevoLibro.getFechaPublicacion().getTime()));
+                ps.setInt(5, i);
+                ps.setString(6, UUID.randomUUID().toString().toUpperCase().substring(0, 6));
+                ps.execute();
             }
-           
-            
 
             System.out.println("Libro guardado con exito");
             return false;
@@ -95,33 +94,30 @@ public class Biblioteca {
         return libros;
     }
 
- 
-    
-   public ArrayList obtenerLibroById(int idLibro) {
-    String SQLquery = "SELECT ISBN FROM ejemplares WHERE libro_id = ?";
-    
-    try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
-        ps.setInt(1, idLibro);
-        try (ResultSet response = ps.executeQuery()) {
-            if (response.next()) {
-                IsbnLibros = new ArrayList();
-                while (response.next()) {
-                IsbnLibros.add(response.getString("ISBN"));
-                
-                    System.out.println("DATOS: "+IsbnLibros);
-             
-        }
+    public ArrayList obtenerLibroById(int idLibro) {
+        String SQLquery = "SELECT ISBN FROM ejemplares WHERE libro_id = ?";
+
+        try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
+            ps.setInt(1, idLibro);
+            try (ResultSet response = ps.executeQuery()) {
+                if (response.next()) {
+                    IsbnLibros = new ArrayList();
+                    while (response.next()) {
+                        IsbnLibros.add(response.getString("ISBN"));
+
+                        System.out.println("DATOS: " + IsbnLibros);
+
+                    }
+                }
             }
+        } catch (Exception e) {
+            System.out.println("No se pudo traer el libro: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("No se pudo traer el libro: " + e.getMessage());
+
+        return IsbnLibros;
+
     }
 
-                   return IsbnLibros;
-
-}
-
-    
     public boolean guardarUser(Usuario nuevoUsuario) {
 
         String SQLquery = "CALL llenar_usuarios(?,?,?,?,?)";
@@ -169,38 +165,29 @@ public class Biblioteca {
 
         return existe;
     }
-        
-    
-    public boolean prestarLibro(PrestamoModel prestamo){
-        String SQLquery = "INSERT INTO prestamos(documento_usuario,libro_id,id_ejemplar,fecha_prestamo,fecha_devolucion,estado) values (?,?,?,?,?,?)";
-        
-         try {
 
-            PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
-            
-       
-            
-            
-       
-            ps.setString(1, prestamo.getDocumentoUsuario());
-            ps.setInt(2, prestamo.getLibroId());
-            ps.setString(3, prestamo.getIdEjemplar());
-            ps.setDate(4, new java.sql.Date(prestamo.getFechaPrestamo().getTime()));
-            ps.setDate(5,null);
-            ps.setString(6,"PRESTADO");
-            ps.execute();
-            
-           
-            
+    public boolean prestarLibro(PrestamoModel prestamo) {
+        String SQLquery = "{CALL registrar_prestamo(?,?,?,?,?,?)}";
 
-            System.out.println("Libro PRESTADO con exito");
+        try (CallableStatement cs = conexion.estableceConexcion().prepareCall(SQLquery)) {
+
+            cs.setString(1, prestamo.getDocumentoUsuario());
+            cs.setInt(2, prestamo.getLibroId());
+            cs.setString(3, prestamo.getIdEjemplar());
+            cs.setDate(4, new java.sql.Date(prestamo.getFechaPrestamo().getTime()));
+            cs.setDate(5, null); // o puedes poner una fecha estimada
+            cs.setString(6, "PRESTADO");
+
+            cs.execute();
+
+            System.out.println("Libro PRESTADO con éxito");
             return true;
-        } catch (Exception e) {
-            System.out.println("Ocurrio un error" + e);
+        } catch (SQLException e) {
+            System.out.println("Ocurrió un error: " + e.getMessage());
             return false;
         }
-        
     }
+
     /*  public boolean actualizarEstadoDeshabilitado(int idLibro){
         String SQLquery = "UPDATE libros SET deshabilitado = ? WHERE id = ?";
         

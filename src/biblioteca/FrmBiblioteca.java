@@ -1,9 +1,11 @@
 package biblioteca;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,14 +13,13 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 public class FrmBiblioteca extends javax.swing.JFrame {
 
     FrmVentanaDeshabilitar v2;
     String titulo, autor, categoria;
     Date fechaPublicacion;
     int stock;
-    String[] encabezado = {"Id", "Titulo", "Autor", "categoria", "Fecha de pubicacion","stock"};
+    String[] encabezado = {"Id", "Titulo", "Autor", "categoria", "Fecha de pubicacion", "stock"};
     ArrayList<Libro> libroRecibido;
     Cconexion conexion = new Cconexion();
     private Biblioteca biblioteca;
@@ -48,8 +49,8 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery); ResultSet response = ps.executeQuery()) {
 
             while (response.next()) {
-                String categoria = response.getString("categoria");
-                comboCategoria.addItem(categoria);
+                String categoria = response.getString("nombre");  // nombre de la columna según tu tabla
+                comboCategoria.addItem(categoria); // usar la variable correcta
             }
 
         } catch (Exception e) {
@@ -72,7 +73,6 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                     libroRecibido.get(i).getFechaPublicacion(),
                     libroRecibido.get(i).getStock()
                 });
-                    
 
             }
 
@@ -95,7 +95,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debes ingresar todos los datos.", "Error", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-      
+
         try {
             Libro nuevoLibro = new Libro(titulo, autor, categoria, fechaSeleccionada, stock);
             biblioteca.guardarLibro(nuevoLibro);

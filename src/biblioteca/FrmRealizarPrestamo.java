@@ -11,51 +11,60 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Oscar
  */
 public class FrmRealizarPrestamo extends javax.swing.JFrame {
+
     Biblioteca biblioteca;
     PrestamoModel prestamo;
     ArrayList<String> IsbnLibros;
     public String documentoUsuario, IsbnLibro;
     public int librroId = 0;
+
     public FrmRealizarPrestamo(int idLibro) {
         initComponents();
         biblioteca = new Biblioteca();
         prestamo = new PrestamoModel();
         IsbnLibros = new ArrayList();
-        IsbnLibros =  biblioteca.obtenerLibroById(idLibro);
+        IsbnLibros = biblioteca.obtenerLibroById(idLibro);
         librroId = idLibro;
         TxtDocumento.setText("");
         llenarComboCategoria();
-        System.out.println("lista: "+IsbnLibros);
+        System.out.println("lista: " + IsbnLibros);
     }
-    
-    
-    public void prestarLibro(){
-        documentoUsuario =  TxtDocumento.getText();
-        IsbnLibro = (String) ComboIdLibro.getSelectedItem();
-         Date fechaActual = new Date();
 
-        System.out.println("ID DEL LIBRO "+IsbnLibro);
-        
-        prestamo =  new PrestamoModel(documentoUsuario,librroId,IsbnLibro,fechaActual,null);
-        
-        biblioteca.prestarLibro(prestamo);
+    public void prestarLibro() {
+        documentoUsuario = TxtDocumento.getText();
+        IsbnLibro = (String) ComboIdLibro.getSelectedItem();
+        Date fechaActual = new Date();
+        System.out.println("ID DEL LIBRO " + IsbnLibro);
+
+        if (documentoUsuario.isEmpty() || IsbnLibro.endsWith("Seleccione...")) {
+            JOptionPane.showMessageDialog(this, "Llene los datos correctamente para realizar el prestamos");
+        } else {
+            try {
+                prestamo = new PrestamoModel(documentoUsuario, librroId, IsbnLibro, fechaActual, null);
+                biblioteca.prestarLibro(prestamo);
+
+            } catch (Exception e) {
+                System.out.println("No se pudo realizar el prestamo: " + e.getMessage());
+            }
+        }
+
     }
-            
-            
+
     public void llenarComboCategoria() {
-  
+
         ComboIdLibro.removeAllItems();
         ComboIdLibro.addItem("Seleccione...");
-        try{
+        try {
 
-            for(int i = 0; i < IsbnLibros.size(); i ++){
-               
+            for (int i = 0; i < IsbnLibros.size(); i++) {
+
                 ComboIdLibro.addItem(IsbnLibros.get(i));
             }
 
@@ -63,18 +72,23 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
             System.out.println("No se pudo traer las categorías: " + e.getMessage());
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         TxtDocumento = new javax.swing.JTextField();
         ComboIdLibro = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton1.setBackground(new java.awt.Color(0, 204, 255));
         jButton1.setText("Prestar libro");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,45 +96,66 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Escoga copia del libro");
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Ingrese documento");
+
         TxtDocumento.setText("jTextField1");
 
         ComboIdLibro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel1.setText("Ingrese documento");
-
-        jLabel2.setText("Escoga copia del libro");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addComponent(jLabel1))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(TxtDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(73, 73, 73)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ComboIdLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(156, 156, 156)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TxtDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ComboIdLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(40, 40, 40)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(78, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(jLabel1)
-                .addGap(37, 37, 37)
-                .addComponent(TxtDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
-                .addComponent(jLabel2)
-                .addGap(36, 36, 36)
-                .addComponent(ComboIdLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(139, 139, 139))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(360, 360, 360)
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(120, 120, 120)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TxtDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ComboIdLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(65, 65, 65)
-                .addComponent(jButton1)
-                .addContainerGap(278, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -130,7 +165,6 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
         // TODO add your handling code here:
         prestarLibro();
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -170,5 +204,6 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
