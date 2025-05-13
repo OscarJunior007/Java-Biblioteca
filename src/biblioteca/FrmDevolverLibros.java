@@ -11,11 +11,11 @@ public class FrmDevolverLibros extends javax.swing.JFrame {
         initComponents();
         biblioteca =  new Biblioteca();
         TxtDocumento.setText("");
-        TxtISBN.setText("");
+       
     }
     
      public void devolverLibro(){
-       isbn = TxtISBN.getText();
+       
        
       if( biblioteca.deVolverLibro(isbn)){
             JOptionPane.showMessageDialog(this, "Libro devuelto con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
