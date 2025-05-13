@@ -95,7 +95,7 @@ public class Biblioteca {
     }
 
     public ArrayList obtenerLibroById(int idLibro) {
-        String SQLquery = "SELECT ISBN FROM ejemplares WHERE libro_id = ?";
+        String SQLquery = "SELECT ISBN FROM ejemplares WHERE libro_id = ? AND estado = 'DISPONIBLE'";
 
         try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
             ps.setInt(1, idLibro);

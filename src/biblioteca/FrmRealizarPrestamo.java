@@ -42,33 +42,36 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
         documentoUsuario = TxtDocumento.getText();
         IsbnLibro = (String) ComboIdLibro.getSelectedItem();
         Date fechaActual = new Date();
-        System.out.println("ID DEL LIBRO " + IsbnLibro);
 
-        if (documentoUsuario.isEmpty() || IsbnLibro.endsWith("Seleccione...")) {
-            JOptionPane.showMessageDialog(this, "Llene los datos correctamente para realizar el prestamos");
-        } else {
-            try {
-                String SQLquery = "CALL verificar_usuario(?)";
-                PreparedStatement ps = null;
-                ps = conexion.estableceConexcion().prepareStatement(SQLquery);
-                ps.setString(1, documentoUsuario);
-                ResultSet rs = ps.executeQuery();
-
-                if (rs.next()) {
-                    prestamo = new PrestamoModel(documentoUsuario, librroId, IsbnLibro, fechaActual, null);
-                    biblioteca.prestarLibro(prestamo);
-                    JOptionPane.showMessageDialog(this, "Prestamo realizado");
-                }
-                else
-                {
-                      JOptionPane.showMessageDialog(this, "Usuario no encontrado, registrese");
-                }
-
-            } catch (Exception e) {
-                System.out.println("No se pudo realizar el prestamo: " + e.getMessage());
-            }
+        if (documentoUsuario.isEmpty() || IsbnLibro.equals("Seleccione...")) {
+            JOptionPane.showMessageDialog(this, "Llene los datos correctamente para realizar el préstamo");
+            return;
         }
 
+        try {
+            String SQLquery = "CALL verificar_usuario(?)";
+            PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
+            ps.setString(1, documentoUsuario);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                prestamo = new PrestamoModel(documentoUsuario, librroId, IsbnLibro, fechaActual, null);
+                biblioteca.prestarLibro(prestamo);
+
+                String actualizarEstadoSQL = "CALL actualizar_estado_ejemplar(?)";
+                PreparedStatement psEstado = conexion.estableceConexcion().prepareStatement(actualizarEstadoSQL);
+                psEstado.setString(1, IsbnLibro);
+                psEstado.executeUpdate();
+
+                JOptionPane.showMessageDialog(this, "Préstamo realizado correctamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Usuario no encontrado, regístrese primero.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("No se pudo realizar el préstamo: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error al realizar el préstamo.");
+        }
     }
 
     public void llenarComboCategoria() {

@@ -102,14 +102,20 @@ public class FrmDefaullt extends javax.swing.JFrame {
     }
 
     private void buscarLibroPorTitulo() {
-        String tituloBuscado = TxtBuscarTitulo.getText().trim().toLowerCase();
+        String textoBuscado = TxtBuscarTitulo.getText().trim().toLowerCase();
+        ArrayList<Libro> librosFiltrados = new ArrayList<>();
+        ArrayList<Libro> todosLosLibros = new ArrayList<>(biblioteca.obtenerLibros());
 
-        List<Libro> librosFiltrados = new ArrayList<>();
-        for (Libro libro : biblioteca.obtenerLibros()) {
-            if (libro.getTitulo().toLowerCase().contains(tituloBuscado)) {
+        for (int i = 0; i < todosLosLibros.size(); i++) {
+            Libro libro = todosLosLibros.get(i);
+            String titulo = libro.getTitulo().toLowerCase();
+            String autor = libro.getAutor().toLowerCase();
+
+            if (titulo.contains(textoBuscado) || autor.contains(textoBuscado)) {
                 librosFiltrados.add(libro);
             }
         }
+
         try {
             DefaultTableModel modelo = new DefaultTableModel() {
                 @Override
@@ -140,42 +146,8 @@ public class FrmDefaullt extends javax.swing.JFrame {
         }
     }
 
-    /*public void prestarLibros() {
-    DefaultTableModel modelo = (DefaultTableModel) TableInfo.getModel();
-    
-     int librosSeleccionados = 0;
-
-    for (int i = 0; i < modelo.getRowCount(); i++) {
-        Boolean seleccionado = (Boolean) modelo.getValueAt(i, 4);
-
-        if (seleccionado != null && seleccionado) {
-            librosSeleccionados++;
-
-            if (librosSeleccionados > 3) {
-                JOptionPane.showMessageDialog(this, "¡Solo puedes prestar hasta 3 libros!");
-                return; // Sale del método y no presta nada
-            }
-        }
-    }
 
 
-    for (int i = 0; i < modelo.getRowCount(); i++) {
-        Boolean seleccionado = (Boolean) modelo.getValueAt(i, 4); 
-
-        if (seleccionado != null && seleccionado) {
-           
-            int idLibro = (int) modelo.getValueAt(i, 0); 
-
-           
-            biblioteca.registrarPrestamo(idLibro);
-              modelo.removeRow(i);
-              i--; 
-            
-        }
-    }
-
-    JOptionPane.showMessageDialog(this, "¡Libros prestados exitosamente!");
-}*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -304,6 +276,8 @@ public class FrmDefaullt extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnPrestarLibroActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed
+        FrmLogin login = new FrmLogin();
+        login.setVisible(true);
         dispose();
     }//GEN-LAST:event_BtnSalirActionPerformed
 

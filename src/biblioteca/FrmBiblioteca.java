@@ -49,8 +49,8 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery); ResultSet response = ps.executeQuery()) {
 
             while (response.next()) {
-                String categoria = response.getString("nombre");  // nombre de la columna según tu tabla
-                comboCategoria.addItem(categoria); // usar la variable correcta
+                String categoria = response.getString("nombre");  
+                comboCategoria.addItem(categoria); 
             }
 
         } catch (Exception e) {
