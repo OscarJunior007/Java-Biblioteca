@@ -187,7 +187,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
         });
 
         TableInfo.setAutoCreateRowSorter(true);
-        TableInfo.setBackground(new java.awt.Color(153, 153, 153));
+        TableInfo.setBackground(new java.awt.Color(255, 255, 255));
         TableInfo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
         TableInfo.setForeground(new java.awt.Color(0, 0, 0));
         TableInfo.setModel(new javax.swing.table.DefaultTableModel(
@@ -209,7 +209,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
             }
         });
 
-        BtnSalir.setBackground(new java.awt.Color(255, 51, 102));
+        BtnSalir.setBackground(new java.awt.Color(255, 0, 51));
         BtnSalir.setText("SALIR");
         BtnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

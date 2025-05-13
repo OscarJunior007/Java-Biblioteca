@@ -94,7 +94,7 @@ public class IngresarUsers extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jSeparator3.setPreferredSize(new java.awt.Dimension(200, 10));
 
-        BtnRegister.setBackground(new java.awt.Color(0, 153, 204));
+        BtnRegister.setBackground(new java.awt.Color(0, 204, 255));
         BtnRegister.setText("Registrar");
         BtnRegister.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
