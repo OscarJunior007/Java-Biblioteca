@@ -166,6 +166,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
         TableInfo = new javax.swing.JTable();
         BtnPrestarLibro = new javax.swing.JButton();
         BtnSalir = new javax.swing.JButton();
+        BtnDevolverLibros = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -177,7 +178,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
         TxtBuscarTitulo.setBackground(new java.awt.Color(51, 51, 51));
         TxtBuscarTitulo.setForeground(new java.awt.Color(255, 255, 255));
 
-        BtnBuscar.setBackground(new java.awt.Color(0, 153, 255));
+        BtnBuscar.setBackground(new java.awt.Color(0, 204, 255));
         BtnBuscar.setText("Buscar");
         BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,7 +201,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
         TableInfo.setSelectionBackground(new java.awt.Color(102, 102, 102));
         jScrollPane1.setViewportView(TableInfo);
 
-        BtnPrestarLibro.setBackground(new java.awt.Color(0, 153, 255));
+        BtnPrestarLibro.setBackground(new java.awt.Color(0, 204, 255));
         BtnPrestarLibro.setText("Prestar");
         BtnPrestarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -213,6 +214,15 @@ public class FrmDefaullt extends javax.swing.JFrame {
         BtnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnSalirActionPerformed(evt);
+            }
+        });
+
+        BtnDevolverLibros.setBackground(new java.awt.Color(0, 204, 255));
+        BtnDevolverLibros.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        BtnDevolverLibros.setText("Devolucion de libros");
+        BtnDevolverLibros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnDevolverLibrosActionPerformed(evt);
             }
         });
 
@@ -231,6 +241,8 @@ public class FrmDefaullt extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(BtnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnDevolverLibros, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnPrestarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24))
@@ -248,11 +260,12 @@ public class FrmDefaullt extends javax.swing.JFrame {
                     .addComponent(TxtBuscarTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BtnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 525, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(BtnPrestarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BtnSalir))
+                    .addComponent(BtnDevolverLibros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(BtnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -285,6 +298,12 @@ public class FrmDefaullt extends javax.swing.JFrame {
         buscarLibroPorTitulo();
 
     }//GEN-LAST:event_BtnBuscarActionPerformed
+
+    private void BtnDevolverLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDevolverLibrosActionPerformed
+       FrmDevolverLibros devolver = new FrmDevolverLibros();
+       devolver.setVisible(true);
+       dispose();
+    }//GEN-LAST:event_BtnDevolverLibrosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -323,6 +342,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnBuscar;
+    private javax.swing.JButton BtnDevolverLibros;
     private javax.swing.JButton BtnPrestarLibro;
     private javax.swing.JButton BtnSalir;
     private javax.swing.JTable TableInfo;
