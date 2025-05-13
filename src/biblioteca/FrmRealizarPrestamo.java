@@ -24,6 +24,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
     ArrayList<String> IsbnLibros;
     public String documentoUsuario, IsbnLibro;
     public int librroId = 0;
+    Cconexion conexion = new Cconexion();
 
     public FrmRealizarPrestamo(int idLibro) {
         initComponents();
@@ -47,8 +48,21 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Llene los datos correctamente para realizar el prestamos");
         } else {
             try {
-                prestamo = new PrestamoModel(documentoUsuario, librroId, IsbnLibro, fechaActual, null);
-                biblioteca.prestarLibro(prestamo);
+                String SQLquery = "CALL verificar_usuario(?)";
+                PreparedStatement ps = null;
+                ps = conexion.estableceConexcion().prepareStatement(SQLquery);
+                ps.setString(1, documentoUsuario);
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    prestamo = new PrestamoModel(documentoUsuario, librroId, IsbnLibro, fechaActual, null);
+                    biblioteca.prestarLibro(prestamo);
+                    JOptionPane.showMessageDialog(this, "Prestamo realizado");
+                }
+                else
+                {
+                      JOptionPane.showMessageDialog(this, "Usuario no encontrado, registrese");
+                }
 
             } catch (Exception e) {
                 System.out.println("No se pudo realizar el prestamo: " + e.getMessage());
@@ -78,7 +92,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        BtnPrestarLibro = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         TxtDocumento = new javax.swing.JTextField();
@@ -88,11 +102,11 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setBackground(new java.awt.Color(0, 204, 255));
-        jButton1.setText("Prestar libro");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        BtnPrestarLibro.setBackground(new java.awt.Color(0, 204, 255));
+        BtnPrestarLibro.setText("Prestar libro");
+        BtnPrestarLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                BtnPrestarLibroActionPerformed(evt);
             }
         });
 
@@ -128,7 +142,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
                             .addComponent(ComboIdLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(156, 156, 156)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(BtnPrestarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -143,7 +157,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
                     .addComponent(TxtDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ComboIdLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(BtnPrestarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(78, Short.MAX_VALUE))
         );
 
@@ -161,10 +175,10 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    private void BtnPrestarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrestarLibroActionPerformed
         prestarLibro();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_BtnPrestarLibroActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -199,9 +213,9 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnPrestarLibro;
     private javax.swing.JComboBox<String> ComboIdLibro;
     private javax.swing.JTextField TxtDocumento;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -105,27 +105,6 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         }
     }
 
-    public void deshabilitarHabilitarLibro() {
-
-    }
-
-//    public void eliminarLibro(){
-//        try{
-//            id = TxtId.getText();
-//
-//
-//
-//
-//            if(!libroEliminado){
-//             JOptionPane.showMessageDialog(this, "Libro no encontrado.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-//             return;
-//        }
-//        JOptionPane.showMessageDialog(this, "Libro eliminado", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-//
-//        }catch (Exception e){
-//            JOptionPane.showMessageDialog(this, "No se pudo eliminar nada"+ e , "Error"   ,  JOptionPane.INFORMATION_MESSAGE);
-//        }
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

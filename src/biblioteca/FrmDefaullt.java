@@ -3,6 +3,7 @@ package biblioteca;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,6 +16,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
     private Biblioteca biblioteca;
     private Libro libro;
     private int idLibro;
+
     public FrmDefaullt() {
         initComponents();
         this.biblioteca = new Biblioteca();
@@ -24,26 +26,36 @@ public class FrmDefaullt extends javax.swing.JFrame {
         mostrarInfo();
 
     }
-    
+
     public void recorrerTabla() {
-    DefaultTableModel modelo = (DefaultTableModel) TableInfo.getModel(); 
+        DefaultTableModel modelo = (DefaultTableModel) TableInfo.getModel();
 
-    for (int i = 0; i < modelo.getRowCount(); i++) {
-        boolean seleccion = (boolean) modelo.getValueAt(i, 4);
+        int librosSeleccionados = 0;
+        int idSeleccionado = 0;
 
-        if (seleccion) {
-            int idSeleccionado = (int) modelo.getValueAt(i, 0);
+        try {
+            for (int i = 0; i < modelo.getRowCount(); i++) {
+                boolean seleccion = (boolean) modelo.getValueAt(i, 4);
 
-            System.out.println("ID seleccionado: " + idSeleccionado);
-            idLibro = idSeleccionado;
-        }
-        
-        if(idLibro != 0 ){
-            FrmRealizarPrestamo vPrestamo = new FrmRealizarPrestamo(idLibro);
-            vPrestamo.setVisible(true);
+                if (seleccion) {
+                    librosSeleccionados++;
+                    idSeleccionado = (int) modelo.getValueAt(i, 0);
+                }
+            }
+
+            if (librosSeleccionados == 0) {
+                JOptionPane.showMessageDialog(this, "Debe seleccionar un libro para prestar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            } else if (librosSeleccionados > 1) {
+                JOptionPane.showMessageDialog(this, "Solo puede seleccionar un libro a la vez.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            } else {
+                FrmRealizarPrestamo vPrestamo = new FrmRealizarPrestamo(idSeleccionado);
+                vPrestamo.setVisible(true);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "No se pudo guardar nada" + e, "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-}
 
     public void mostrarInfo() {
         this.libroRecibido = biblioteca.obtenerLibros();
@@ -64,6 +76,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
                     return super.getColumnClass(columnIndex);
                 }
             };
+
             modelo.setColumnIdentifiers(encabezado);
             for (int i = 0; i < libroRecibido.size(); i++) {
                 modelo.addRow(new Object[]{
@@ -76,9 +89,9 @@ public class FrmDefaullt extends javax.swing.JFrame {
                 });
 
             }
-             
-            modelo.addTableModelListener(e->{
-                    //PEGAS LO QUE TE ENVIE POR DISCORD AQUI
+
+            modelo.addTableModelListener(e -> {
+
             });
 
             TableInfo.setModel(modelo);
@@ -87,8 +100,45 @@ public class FrmDefaullt extends javax.swing.JFrame {
         }
 
     }
-    
-    
+
+    private void buscarLibroPorTitulo() {
+        String tituloBuscado = TxtBuscarTitulo.getText().trim().toLowerCase();
+
+        List<Libro> librosFiltrados = new ArrayList<>();
+        for (Libro libro : biblioteca.obtenerLibros()) {
+            if (libro.getTitulo().toLowerCase().contains(tituloBuscado)) {
+                librosFiltrados.add(libro);
+            }
+        }
+        try {
+            DefaultTableModel modelo = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return column == 4;
+                }
+
+                @Override
+                public Class<?> getColumnClass(int columnIndex) {
+                    return (columnIndex == 4) ? Boolean.class : super.getColumnClass(columnIndex);
+                }
+            };
+
+            modelo.setColumnIdentifiers(encabezado);
+            for (Libro libro : librosFiltrados) {
+                modelo.addRow(new Object[]{
+                    libro.getId(),
+                    libro.getTitulo(),
+                    libro.getAutor(),
+                    libro.getFechaPublicacion(),
+                    false
+                });
+            }
+
+            TableInfo.setModel(modelo);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al buscar libros: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /*public void prestarLibros() {
     DefaultTableModel modelo = (DefaultTableModel) TableInfo.getModel();
@@ -150,13 +200,18 @@ public class FrmDefaullt extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Buscar Titulo");
+        jLabel1.setText("Buscar por Titulo o Autor");
 
         TxtBuscarTitulo.setBackground(new java.awt.Color(51, 51, 51));
         TxtBuscarTitulo.setForeground(new java.awt.Color(255, 255, 255));
 
         BtnBuscar.setBackground(new java.awt.Color(0, 153, 255));
         BtnBuscar.setText("Buscar");
+        BtnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnBuscarActionPerformed(evt);
+            }
+        });
 
         TableInfo.setAutoCreateRowSorter(true);
         TableInfo.setBackground(new java.awt.Color(153, 153, 153));
@@ -198,20 +253,18 @@ public class FrmDefaullt extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(TxtBuscarTitulo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(BtnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(TxtBuscarTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(BtnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(BtnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnPrestarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))))
+                        .addGap(24, 24, 24))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,12 +300,17 @@ public class FrmDefaullt extends javax.swing.JFrame {
 
     private void BtnPrestarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrestarLibroActionPerformed
 
-            recorrerTabla();
+        recorrerTabla();
     }//GEN-LAST:event_BtnPrestarLibroActionPerformed
 
     private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed
         dispose();
     }//GEN-LAST:event_BtnSalirActionPerformed
+
+    private void BtnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnBuscarActionPerformed
+        buscarLibroPorTitulo();
+
+    }//GEN-LAST:event_BtnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
