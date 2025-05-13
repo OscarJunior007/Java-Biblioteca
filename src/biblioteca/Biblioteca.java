@@ -94,20 +94,15 @@ public class Biblioteca {
         return libros;
     }
 
-    public ArrayList obtenerLibroById(int idLibro) {
-        String SQLquery = "SELECT ISBN FROM ejemplares WHERE libro_id = ? AND estado = 'DISPONIBLE'";
+    public ArrayList<String> obtenerLibroById(int idLibro) {
+        ArrayList<String> IsbnLibros = new ArrayList<>();
+        String SQLquery = "{CALL mostrar_ejemplares_disponibles_por_libro(?)}";
 
-        try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
-            ps.setInt(1, idLibro);
-            try (ResultSet response = ps.executeQuery()) {
-                if (response.next()) {
-                    IsbnLibros = new ArrayList();
-                    while (response.next()) {
-                        IsbnLibros.add(response.getString("ISBN"));
-
-                        System.out.println("DATOS: " + IsbnLibros);
-
-                    }
+        try (CallableStatement cs = conexion.estableceConexcion().prepareCall(SQLquery)) {
+            cs.setInt(1, idLibro);
+            try (ResultSet response = cs.executeQuery()) {
+                while (response.next()) {
+                    IsbnLibros.add(response.getString("ISBN"));
                 }
             }
         } catch (Exception e) {
@@ -115,14 +110,14 @@ public class Biblioteca {
         }
 
         return IsbnLibros;
-
     }
 
+    
+    
     public boolean guardarUser(Usuario nuevoUsuario) {
 
         String SQLquery = "CALL llenar_usuarios(?,?,?,?,?)";
         try {
-
             PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
             ps.setString(1, nuevoUsuario.getNombre());
             ps.setString(2, nuevoUsuario.getApellido());
