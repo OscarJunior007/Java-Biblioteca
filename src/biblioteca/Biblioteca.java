@@ -71,6 +71,22 @@ public class Biblioteca {
 
     }
 
+    public boolean deVolverLibro(String Isbn) {
+        String SQLquery = "CALL actualizar_estado_ejemplar(?)";
+        try {
+
+            PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
+            ps.setString(1, Isbn);
+            ps.executeUpdate();
+            System.out.println("Estado editado con exito");
+            return true;
+        } catch (Exception e) {
+            System.out.println("Ocurrio un error" + e);
+            return false;
+        }
+
+    }
+
     public ArrayList<Libro> obtenerLibros() {
         String SQLquery = "CALL mostrar_libros()";
         libros.clear();
@@ -112,8 +128,6 @@ public class Biblioteca {
         return IsbnLibros;
     }
 
-    
-    
     public boolean guardarUser(Usuario nuevoUsuario) {
 
         String SQLquery = "CALL llenar_usuarios(?,?,?,?,?)";

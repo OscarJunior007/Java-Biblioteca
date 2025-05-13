@@ -1,16 +1,28 @@
 
 package biblioteca;
 
+import javax.swing.JOptionPane;
+
 public class FrmDevolverLibros extends javax.swing.JFrame {
 
-    String Documento, ISBN;
-    
+    String documento, isbn;
+    Biblioteca biblioteca;
     public FrmDevolverLibros() {
         initComponents();
+        biblioteca =  new Biblioteca();
         TxtDocumento.setText("");
         TxtISBN.setText("");
     }
-
+    
+     public void devolverLibro(){
+       isbn = TxtISBN.getText();
+       
+      if( biblioteca.deVolverLibro(isbn)){
+            JOptionPane.showMessageDialog(this, "Libro devuelto con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            return;
+      }
+       
+    }
   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -55,6 +67,11 @@ public class FrmDevolverLibros extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(0, 204, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setText("Devolver");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -125,9 +142,14 @@ public class FrmDevolverLibros extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        devolverLibro();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+   
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
