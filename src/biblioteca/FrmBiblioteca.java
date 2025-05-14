@@ -18,8 +18,9 @@ public class FrmBiblioteca extends javax.swing.JFrame {
     FrmVentanaDeshabilitar v2;
     String titulo, autor, categoria;
     Date fechaPublicacion;
+    Reportes reporteLibro;
     int stock;
-    String[] encabezado = {"Id", "Titulo", "Autor", "categoria", "Fecha de pubicacion", "stock"};
+    String[] encabezado = {"Id", "Titulo", "Autor", "categoria", "Fecha de pubicacion", "stock"};   
     ArrayList<Libro> libroRecibido;
     Cconexion conexion = new Cconexion();
     private Biblioteca biblioteca;
@@ -34,6 +35,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         TxtAutorLibro.setText("");
         TxtTituloLibro.setText("");
         this.biblioteca = new Biblioteca();
+        this.reporteLibro = new Reportes();
         this.libro = new Libro();
         this.libroRecibido = biblioteca.obtenerLibros();
         llenarComboCategoria();
@@ -143,6 +145,8 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         BtnSalir = new javax.swing.JButton();
         CalendarFechaPublicacion = new com.toedter.calendar.JDateChooser();
+        BtnReporteLibros = new javax.swing.JButton();
+        BtnMasprestados = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -210,6 +214,20 @@ public class FrmBiblioteca extends javax.swing.JFrame {
             }
         });
 
+        BtnReporteLibros.setText("reporte");
+        BtnReporteLibros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnReporteLibrosActionPerformed(evt);
+            }
+        });
+
+        BtnMasprestados.setText("mas prestados");
+        BtnMasprestados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnMasprestadosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
         panelLayout.setHorizontalGroup(
@@ -235,11 +253,19 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                                     .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(SpinerStock, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                                    .addComponent(CalendarFechaPublicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(218, 218, 218)
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                                            .addComponent(CalendarFechaPublicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(218, 218, 218))
+                                    .addGroup(panelLayout.createSequentialGroup()
+                                        .addGap(82, 82, 82)
+                                        .addComponent(BtnReporteLibros, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(BtnMasprestados, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(21, 21, 21))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
@@ -273,8 +299,11 @@ public class FrmBiblioteca extends javax.swing.JFrame {
                             .addComponent(SpinerStock, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(TxtAutorLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(panelLayout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(37, 37, 37)
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BtnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnReporteLibros, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BtnMasprestados, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -317,6 +346,15 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_BtnSalirActionPerformed
 
+    private void BtnReporteLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReporteLibrosActionPerformed
+        reporteLibro.reporteLibrosExcel();
+    }//GEN-LAST:event_BtnReporteLibrosActionPerformed
+
+    private void BtnMasprestadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnMasprestadosActionPerformed
+        reporteLibro.exportarLibrosMasPrestados();
+
+    }//GEN-LAST:event_BtnMasprestadosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -355,6 +393,8 @@ public class FrmBiblioteca extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnDeshabilitar;
     private javax.swing.JButton BtnGuardar;
+    private javax.swing.JButton BtnMasprestados;
+    private javax.swing.JButton BtnReporteLibros;
     private javax.swing.JButton BtnSalir;
     private com.toedter.calendar.JDateChooser CalendarFechaPublicacion;
     private javax.swing.JSpinner SpinerStock;

@@ -71,6 +71,24 @@ public class Biblioteca {
         }
 
     }
+    
+    public int verificarExistencia(String isbn){
+        String SQLquery = "SELECT existe_isbn(?);";
+        int existe = 0;
+         try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
+            ps.setString(1,isbn); 
+        
+        try (ResultSet response = ps.executeQuery()) {
+            if (response.next()) {
+                existe = response.getInt(1);
+
+            }
+        }
+    } catch (Exception e) {
+        System.out.println("No se pudo traer los libros: " + e.getMessage());
+    }
+            return existe;
+    }
 
     public boolean deVolverLibro(DevolucionModel model) {
         String SQLquery = "CALL actualizar_estado_ejemplar(?,?,?)";
@@ -123,7 +141,26 @@ public class Biblioteca {
     return libroPrestado;
 }
     
-    
+    public ArrayList<Libro> librosMasPrestados(){
+        String SQLquery = "CALL libros_mas_prestados()";
+        libros.clear();
+
+        try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery); ResultSet response = ps.executeQuery()) {
+
+            while (response.next()) {
+                Libro libro = new Libro();
+                libro.setId(response.getInt("id"));
+                libro.setTitulo(response.getString("titulo"));
+                libro.setVecesPrestado(response.getInt("total_prestamos"));
+ 
+                libros.add(libro);
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo traer los libros: " + e.getMessage());
+        }
+        return libros;
+
+    }
 
     public ArrayList<Libro> obtenerLibros() {
         String SQLquery = "CALL mostrar_libros()";

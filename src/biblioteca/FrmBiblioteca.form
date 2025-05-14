@@ -67,12 +67,23 @@
                                       <Component id="jLabel1" alignment="0" min="-2" pref="113" max="-2" attributes="0"/>
                                       <Component id="SpinerStock" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="101" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jLabel5" pref="158" max="32767" attributes="0"/>
-                                      <Component id="CalendarFechaPublicacion" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace pref="101" max="32767" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="jLabel5" pref="158" max="32767" attributes="0"/>
+                                              <Component id="CalendarFechaPublicacion" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
+                                          <Component id="BtnReporteLibros" min="-2" pref="108" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="BtnMasprestados" min="-2" pref="137" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="218" max="-2" attributes="0"/>
                                   <Component id="BtnGuardar" min="-2" pref="159" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -119,8 +130,12 @@
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="BtnGuardar" min="-2" pref="52" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="BtnGuardar" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
+                              <Component id="BtnReporteLibros" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                              <Component id="BtnMasprestados" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace pref="26" max="32767" attributes="0"/>
@@ -276,6 +291,22 @@
           </Events>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="CalendarFechaPublicacion">
+        </Component>
+        <Component class="javax.swing.JButton" name="BtnReporteLibros">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="reporte"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnReporteLibrosActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="BtnMasprestados">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="mas prestados"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BtnMasprestadosActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

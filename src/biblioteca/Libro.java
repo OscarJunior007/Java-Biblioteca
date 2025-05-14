@@ -10,7 +10,7 @@ public class Libro {
     private String categoria;
     private Date fechaPublicacion;
     private int stock;
-
+    private int vecesPrestado;
     public Libro() {
 
     }
@@ -21,9 +21,14 @@ public class Libro {
         this.categoria = categoria;
         this.fechaPublicacion = FechaPublicacion;
         this.stock = stock;
-
+        
     }
 
+    public int getVecesPrestado() {
+        return vecesPrestado;
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -72,6 +77,12 @@ public class Libro {
     public void setStock(int stock) {
         this.stock = stock;
     }
+
+    public void setVecesPrestado(int vecesPrestado) {
+        this.vecesPrestado = vecesPrestado;
+    }
+    
+    
     
 
 }

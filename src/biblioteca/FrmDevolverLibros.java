@@ -53,12 +53,18 @@ public class FrmDevolverLibros extends javax.swing.JFrame {
         Date fechaDevolucion = new Date();
         devolucion = new DevolucionModel(isbn, documento, fechaDevolucion);
         System.out.println("datos: " + this.devolucion);
-
+        
+        int existe = biblioteca.verificarExistencia(isbn);
         if (isbn.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese el ISBN del libro", "Error", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-
+        
+        if(existe !=1){
+           JOptionPane.showMessageDialog(this, "Ingresa un ISBN CORRECTO", "Error", JOptionPane.INFORMATION_MESSAGE);
+           return;
+        }
+        
         if (biblioteca.deVolverLibro(devolucion)) {
             JOptionPane.showMessageDialog(this, "Libro devuelto con éxito!", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             mostrarInfo();
