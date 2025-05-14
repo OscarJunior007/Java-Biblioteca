@@ -194,6 +194,16 @@ public class FrmLogin extends javax.swing.JFrame {
              dispose();
             
          }
+         else if(rol==3)
+         {
+             FrmUsurios  user = new FrmUsurios();
+             user.setVisible(true);
+             int idUsuario = rs.getInt("id"); 
+             Sesion.idUsuario = idUsuario;
+             System.out.println("Usuario logueado ID: " + Sesion.idUsuario);
+             dispose();
+         }
+         
          else
          {
              JOptionPane.showMessageDialog(this, "ERROR, INTENTE NUEVAMENTE");
