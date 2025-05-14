@@ -21,10 +21,10 @@ public class Reportes {
     
     
 
-    static String filePath = "C:\\Users\\Oscar\\OneDrive\\Documentos\\prueba.xls";
+    static String filePath = "C:\\Users\\perea\\Documents\\prueba.xls"; 
 
   
-    public static void reporteLibrosExcel() {
+    public static void reporteLibrosExcel() {     
         try {
             Biblioteca biblioteca = new Biblioteca();
             ArrayList<Libro> libros = biblioteca.obtenerLibros();
