@@ -47,7 +47,10 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Llene los datos correctamente para realizar el préstamo");
             return;
         }
-
+        
+        else
+        {
+            
         try {
             String SQLquery = "CALL verificar_usuario(?)";
             PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
@@ -67,6 +70,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
                 psEstado.executeUpdate();
 
                 JOptionPane.showMessageDialog(this, "Préstamo realizado correctamente.");
+                dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Usuario no encontrado, regístrese primero.");
             }
@@ -75,6 +79,9 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
             System.out.println("No se pudo realizar el préstamo: " + e.getMessage());
             JOptionPane.showMessageDialog(this, "Error al realizar el préstamo.");
         }
+            
+        }
+
     }
 
     public void llenarComboCategoria() {
@@ -183,7 +190,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
 
     private void BtnPrestarLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPrestarLibroActionPerformed
         prestarLibro();
-        dispose();
+        
     }//GEN-LAST:event_BtnPrestarLibroActionPerformed
 
     public static void main(String args[]) {
