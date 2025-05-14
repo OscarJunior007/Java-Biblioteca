@@ -58,9 +58,12 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
                 prestamo = new PrestamoModel(documentoUsuario, librroId, IsbnLibro, fechaActual, null);
                 biblioteca.prestarLibro(prestamo);
 
-                String actualizarEstadoSQL = "CALL actualizar_estado_ejemplar(?)";
+                String actualizarEstadoSQL = "CALL actualizar_estado_ejemplar(?,?,?)";
                 PreparedStatement psEstado = conexion.estableceConexcion().prepareStatement(actualizarEstadoSQL);
                 psEstado.setString(1, IsbnLibro);
+                psEstado.setDate(2, null);
+                psEstado.setString(3, null);
+
                 psEstado.executeUpdate();
 
                 JOptionPane.showMessageDialog(this, "Préstamo realizado correctamente.");

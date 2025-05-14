@@ -14,7 +14,7 @@ public class Biblioteca {
 
     Libro libro;
     private ArrayList<Libro> libros;
-
+    private ArrayList<LibroPrestadoModel> libroPrestado;
     Usuario usuario;
     private ArrayList<Usuario> dbUsers;
 
@@ -23,6 +23,7 @@ public class Biblioteca {
         this.libros = new ArrayList<>();
         this.dbUsers = new ArrayList<>();
         this.libro = new Libro();
+        this.libroPrestado = new ArrayList<>();
 
     }
 
@@ -71,13 +72,22 @@ public class Biblioteca {
 
     }
 
-    public boolean deVolverLibro(String Isbn) {
-        String SQLquery = "CALL actualizar_estado_ejemplar(?)";
+    public boolean deVolverLibro(DevolucionModel model) {
+        String SQLquery = "CALL actualizar_estado_ejemplar(?,?,?)";
         try {
 
             PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
-            ps.setString(1, Isbn);
-            ps.executeUpdate();
+            ps.setString(1, model.getIsbn());
+            ps.setDate(2, new java.sql.Date(model.getFechaDevolucion().getTime()));
+            ps.setString(3, model.getDocumentoUsuario());
+            
+               
+            System.out.println("Ejecutando procedimiento con parámetros:");
+            System.out.println("ISBN: " + model.getIsbn());
+            System.out.println("Fecha Devolución: " + new java.sql.Date(model.getFechaDevolucion().getTime()));
+            System.out.println("Documento Usuario: " + model.getDocumentoUsuario());
+
+            ps.execute();
             System.out.println("Estado editado con exito");
             return true;
         } catch (Exception e) {
@@ -86,6 +96,34 @@ public class Biblioteca {
         }
 
     }
+    
+   public ArrayList<LibroPrestadoModel> obtenerLibrosPrestados(String documento) {
+    String SQLquery = "CALL libros_prestados_by_user(?)";
+    
+    try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
+        ps.setString(1, documento); 
+        
+        try (ResultSet response = ps.executeQuery()) {
+            while (response.next()) {
+                LibroPrestadoModel modelo = new LibroPrestadoModel();
+                modelo.setIdEjemplar(response.getString("id_ejemplar"));  
+                modelo.setTitulo(response.getString("titulo"));
+                modelo.setAutor(response.getString("autor"));
+                modelo.setDocumento(response.getString("documento"));
+                modelo.setFechaPrestamo(response.getDate("fecha_prestamo"));
+
+                libroPrestado.add(modelo);
+            }
+        }
+    } catch (Exception e) {
+        System.out.println("No se pudo traer los libros: " + e.getMessage());
+    }
+    System.out.println("libros: "+libroPrestado);
+
+    return libroPrestado;
+}
+    
+    
 
     public ArrayList<Libro> obtenerLibros() {
         String SQLquery = "CALL mostrar_libros()";
@@ -112,6 +150,7 @@ public class Biblioteca {
 
     public ArrayList<String> obtenerLibroById(int idLibro) {
         ArrayList<String> IsbnLibros = new ArrayList<>();
+        libroPrestado.clear();
         String SQLquery = "{CALL mostrar_ejemplares_disponibles_por_libro(?)}";
 
         try (CallableStatement cs = conexion.estableceConexcion().prepareCall(SQLquery)) {

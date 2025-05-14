@@ -37,7 +37,7 @@ public class PrestamoModel {
     }
 
     public Date getFechaDevolucion() {
-        return fechaDevolucion;
+            return fechaDevolucion;
     }
 
     public String getDocumentoUsuario() {
