@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class PrestamoModel {
     private int libroId;
-    private String idEjemplar,documentoUsuario;
+    private String idEjemplar,documentoUsuario,estado;
     private Date fechaPrestamo, fechaDevolucion;
-
+   
     public PrestamoModel() {
     }
 
@@ -26,6 +26,10 @@ public class PrestamoModel {
 
     public int getLibroId() {
         return libroId;
+    }
+    
+    public String getEstado(){
+        return estado;
     }
 
     public String getIdEjemplar() {
@@ -66,6 +70,8 @@ public class PrestamoModel {
         this.fechaDevolucion = fechaDevolucion;
     }
     
-    
+    public void setEstado(String estado){
+        this.estado = estado;
+    }
     
 }

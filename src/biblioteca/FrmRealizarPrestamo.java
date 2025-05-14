@@ -19,6 +19,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
     Biblioteca biblioteca;
     PrestamoModel prestamo;
     ArrayList<String> IsbnLibros;
+  
     public String documentoUsuario, IsbnLibro;
     public int librroId = 0;
     Cconexion conexion = new Cconexion();
@@ -28,6 +29,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
         biblioteca = new Biblioteca();
         prestamo = new PrestamoModel();
         IsbnLibros = new ArrayList();
+    
         IsbnLibros = biblioteca.obtenerLibroById(idLibro);
         librroId = idLibro;
         TxtDocumento.setText("");
@@ -36,7 +38,12 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
     }
 
     public void prestarLibro() {
+        
+        
+        
         documentoUsuario = TxtDocumento.getText();
+        
+     
         IsbnLibro = (String) ComboIdLibro.getSelectedItem();
         Date fechaActual = new Date();
 

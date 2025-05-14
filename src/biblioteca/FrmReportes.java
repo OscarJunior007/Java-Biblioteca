@@ -1,14 +1,13 @@
-
 package biblioteca;
-
 
 public class FrmReportes extends javax.swing.JFrame {
 
     Reportes reporteLibro;
+
     public FrmReportes() {
         initComponents();
         reporteLibro = new Reportes();
-        
+
     }
 
     /**
@@ -95,17 +94,8 @@ public class FrmReportes extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(BtnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(43, 43, 43)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -119,38 +109,54 @@ public class FrmReportes extends javax.swing.JFrame {
                                 .addGap(33, 33, 33)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(72, 72, 72)
+                                .addGap(67, 67, 67)
                                 .addComponent(BtnReportePrestamosGeneral1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(BtnMasprestados, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(128, 128, 128)
-                        .addComponent(BtnReporteEstadistico, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addComponent(BtnMasprestados, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(43, 43, 43)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(BtnReporteEstadistico, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(105, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(BtnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel3))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(BtnReporteLibros1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(BtnReporteLibros1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(BtnReportePrestamosGeneral1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(15, 15, 15)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BtnMasprestados, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(BtnReporteEstadistico, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(BtnReportePrestamosGeneral1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(BtnReporteEstadistico, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                        .addGap(134, 134, 134)
+                        .addComponent(BtnMasprestados, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 112, Short.MAX_VALUE)
                 .addComponent(BtnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -170,7 +176,6 @@ public class FrmReportes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnReporteEstadisticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReporteEstadisticoActionPerformed
-        reporteLibro.reporteLibrosExcel();
     }//GEN-LAST:event_BtnReporteEstadisticoActionPerformed
 
     private void BtnMasprestadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnMasprestadosActionPerformed
@@ -184,12 +189,10 @@ public class FrmReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnVolverActionPerformed
 
     private void BtnReporteLibros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReporteLibros1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnReporteLibros1ActionPerformed
+        reporteLibro.reporteLibrosExcel();    }//GEN-LAST:event_BtnReporteLibros1ActionPerformed
 
     private void BtnReportePrestamosGeneral1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReportePrestamosGeneral1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_BtnReportePrestamosGeneral1ActionPerformed
+        reporteLibro.exportInfoPrestamos();    }//GEN-LAST:event_BtnReportePrestamosGeneral1ActionPerformed
 
     /**
      * @param args the command line arguments

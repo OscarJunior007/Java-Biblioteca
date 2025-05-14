@@ -11,10 +11,12 @@ public class LibroPrestadoModel {
     
     private String idEjemplar,titulo,autor,documento;
     private Date fechaPrestamo;
-
+    
     public LibroPrestadoModel() {
     }
-
+    
+    
+    
     public LibroPrestadoModel(String idEjemplar, String titulo, String autor, String documento, Date fechaPrestamo) {
         this.idEjemplar = idEjemplar;
         this.titulo = titulo;

@@ -11,7 +11,7 @@ public class Biblioteca {
 
     Cconexion conexion = new Cconexion();
     ArrayList<String> IsbnLibros;
-
+    ArrayList<PrestamoModel> prestamo;
     Libro libro;
     private ArrayList<Libro> libros;
     private ArrayList<LibroPrestadoModel> libroPrestado;
@@ -24,6 +24,7 @@ public class Biblioteca {
         this.dbUsers = new ArrayList<>();
         this.libro = new Libro();
         this.libroPrestado = new ArrayList<>();
+        this.prestamo = new ArrayList<>();
 
     }
 
@@ -71,23 +72,23 @@ public class Biblioteca {
         }
 
     }
-    
-    public int verificarExistencia(String isbn){
+
+    public int verificarExistencia(String isbn) {
         String SQLquery = "SELECT existe_isbn(?);";
         int existe = 0;
-         try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
-            ps.setString(1,isbn); 
-        
-        try (ResultSet response = ps.executeQuery()) {
-            if (response.next()) {
-                existe = response.getInt(1);
+        try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
+            ps.setString(1, isbn);
 
+            try (ResultSet response = ps.executeQuery()) {
+                if (response.next()) {
+                    existe = response.getInt(1);
+
+                }
             }
+        } catch (Exception e) {
+            System.out.println("No se pudo traer los libros: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("No se pudo traer los libros: " + e.getMessage());
-    }
-            return existe;
+        return existe;
     }
 
     public boolean deVolverLibro(DevolucionModel model) {
@@ -98,8 +99,7 @@ public class Biblioteca {
             ps.setString(1, model.getIsbn());
             ps.setDate(2, new java.sql.Date(model.getFechaDevolucion().getTime()));
             ps.setString(3, model.getDocumentoUsuario());
-            
-               
+
             System.out.println("Ejecutando procedimiento con parámetros:");
             System.out.println("ISBN: " + model.getIsbn());
             System.out.println("Fecha Devolución: " + new java.sql.Date(model.getFechaDevolucion().getTime()));
@@ -114,34 +114,58 @@ public class Biblioteca {
         }
 
     }
-    
-   public ArrayList<LibroPrestadoModel> obtenerLibrosPrestados(String documento) {
-    String SQLquery = "CALL libros_prestados_by_user(?)";
-    
-    try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
-        ps.setString(1, documento); 
-        
-        try (ResultSet response = ps.executeQuery()) {
+
+    public ArrayList<PrestamoModel> reporteTablePrestamos() {
+        String SQLquery = "CALL select_table_prestamo()";
+
+        try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery); ResultSet response = ps.executeQuery()) {
+
             while (response.next()) {
-                LibroPrestadoModel modelo = new LibroPrestadoModel();
-                modelo.setIdEjemplar(response.getString("id_ejemplar"));  
-                modelo.setTitulo(response.getString("titulo"));
-                modelo.setAutor(response.getString("autor"));
-                modelo.setDocumento(response.getString("documento"));
+                PrestamoModel modelo = new PrestamoModel();
+                modelo.setDocumentoUsuario(response.getString("documento_usuario"));
+                modelo.setLibroId(response.getInt("id"));
+                modelo.setIdEjemplar(response.getString("id_ejemplar"));
                 modelo.setFechaPrestamo(response.getDate("fecha_prestamo"));
+                modelo.setFechaDevolucion(response.getDate("fecha_devolucion"));
+                modelo.setEstado(response.getString("estado"));
 
-                libroPrestado.add(modelo);
+                prestamo.add(modelo);
             }
+        } catch (Exception e) {
+            System.out.println("No se pudo traer los libros: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.out.println("No se pudo traer los libros: " + e.getMessage());
-    }
-    System.out.println("libros: "+libroPrestado);
 
-    return libroPrestado;
-}
-    
-    public ArrayList<Libro> librosMasPrestados(){
+        return prestamo;
+
+    }
+
+    public ArrayList<LibroPrestadoModel> obtenerLibrosPrestados(String documento) {
+        String SQLquery = "CALL libros_prestados_by_user(?)";
+
+        try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery)) {
+            ps.setString(1, documento);
+
+            try (ResultSet response = ps.executeQuery()) {
+                while (response.next()) {
+                    LibroPrestadoModel modelo = new LibroPrestadoModel();
+                    modelo.setIdEjemplar(response.getString("id_ejemplar"));
+                    modelo.setTitulo(response.getString("titulo"));
+                    modelo.setAutor(response.getString("autor"));
+                    modelo.setDocumento(response.getString("documento"));
+                    modelo.setFechaPrestamo(response.getDate("fecha_prestamo"));
+
+                    libroPrestado.add(modelo);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo traer los libros: " + e.getMessage());
+        }
+        System.out.println("libros: " + libroPrestado);
+
+        return libroPrestado;
+    }
+
+    public ArrayList<Libro> librosMasPrestados() {
         String SQLquery = "CALL libros_mas_prestados()";
         libros.clear();
 
@@ -152,7 +176,7 @@ public class Biblioteca {
                 libro.setId(response.getInt("id"));
                 libro.setTitulo(response.getString("titulo"));
                 libro.setVecesPrestado(response.getInt("total_prestamos"));
- 
+
                 libros.add(libro);
             }
         } catch (Exception e) {
