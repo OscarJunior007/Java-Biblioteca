@@ -123,7 +123,7 @@ public class Biblioteca {
             while (response.next()) {
                 PrestamoModel modelo = new PrestamoModel();
                 modelo.setDocumentoUsuario(response.getString("documento_usuario"));
-                modelo.setLibroId(response.getInt("id"));
+                modelo.setLibroId(response.getInt("libro_id"));
                 modelo.setIdEjemplar(response.getString("id_ejemplar"));
                 modelo.setFechaPrestamo(response.getDate("fecha_prestamo"));
                 modelo.setFechaDevolucion(response.getDate("fecha_devolucion"));
@@ -148,12 +148,12 @@ public class Biblioteca {
             try (ResultSet response = ps.executeQuery()) {
                 while (response.next()) {
                     LibroPrestadoModel modelo = new LibroPrestadoModel();
+                    modelo.setIdLibro(response.getInt("libro_id"));
                     modelo.setIdEjemplar(response.getString("id_ejemplar"));
                     modelo.setTitulo(response.getString("titulo"));
                     modelo.setAutor(response.getString("autor"));
                     modelo.setDocumento(response.getString("documento"));
                     modelo.setFechaPrestamo(response.getDate("fecha_prestamo"));
-
                     libroPrestado.add(modelo);
                 }
             }
@@ -296,6 +296,10 @@ public class Biblioteca {
             return false;
         }
     }
+    
+    
+   
+    
 
     /*  public boolean actualizarEstadoDeshabilitado(int idLibro){
         String SQLquery = "UPDATE libros SET deshabilitado = ? WHERE id = ?";

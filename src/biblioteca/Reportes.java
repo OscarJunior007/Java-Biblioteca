@@ -22,7 +22,7 @@ public class Reportes {
     
     
     private static String getFilePath() {
-    return "C:\\Users\\Oscar\\OneDrive\\Documentos\\" + nombreArchivo;
+    return "C:\\Users\\DELL\\Documents\\" + nombreArchivo; 
 }
 
     public static void reporteLibrosExcel() {

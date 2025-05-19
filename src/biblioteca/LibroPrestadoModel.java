@@ -9,6 +9,7 @@ import java.util.Date;
 
 public class LibroPrestadoModel {
     
+    int idLibro;
     private String idEjemplar,titulo,autor,documento;
     private Date fechaPrestamo;
     
@@ -25,6 +26,9 @@ public class LibroPrestadoModel {
         this.fechaPrestamo = fechaPrestamo;
     }
 
+    public int getIdLibro(){
+        return idLibro;
+    }
     public String getIdEjemplar() {
         return idEjemplar;
     }
@@ -65,6 +69,8 @@ public class LibroPrestadoModel {
         this.fechaPrestamo = fechaPrestamo;
     }
     
-    
+    public void setIdLibro(int idLibro){
+        this.idLibro = idLibro;
+    }
     
 }

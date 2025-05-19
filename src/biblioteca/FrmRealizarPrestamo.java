@@ -19,31 +19,45 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
     Biblioteca biblioteca;
     PrestamoModel prestamo;
     ArrayList<String> IsbnLibros;
-  
+    ArrayList<LibroPrestadoModel> librosUsuario;
     public String documentoUsuario, IsbnLibro;
     public int librroId = 0;
     Cconexion conexion = new Cconexion();
-
+    ArrayList<Integer> librosId;
     public FrmRealizarPrestamo(int idLibro) {
         initComponents();
+        librosId = new ArrayList();
         biblioteca = new Biblioteca();
         prestamo = new PrestamoModel();
         IsbnLibros = new ArrayList();
-    
+        librosUsuario = new ArrayList();
         IsbnLibros = biblioteca.obtenerLibroById(idLibro);
         librroId = idLibro;
         TxtDocumento.setText("");
         llenarComboCategoria();
-        System.out.println("lista: " + IsbnLibros);
-    }
+                System.out.println("este es el id del libro seleccionado: "+librroId);
 
+    }
+    
+    
+    
+    
+    
     public void prestarLibro() {
         
         
         
         documentoUsuario = TxtDocumento.getText();
+        librosUsuario = biblioteca.obtenerLibrosPrestados(documentoUsuario);
+        System.out.println(" libros que tiene prestado el usuario: "+librosUsuario);
         
-     
+        for(LibroPrestadoModel libro: librosUsuario){
+            if(libro.getIdLibro() == librroId){
+                JOptionPane.showMessageDialog(this, "El usuario ya tiene una copia de este libro prestada");
+                return;
+            }
+        }
+        
         IsbnLibro = (String) ComboIdLibro.getSelectedItem();
         Date fechaActual = new Date();
 
@@ -52,8 +66,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
             return;
         }
         
-        else
-        {
+        
             
         try {
             String SQLquery = "CALL verificar_usuario(?)";
@@ -84,7 +97,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error al realizar el préstamo.");
         }
             
-        }
+        
 
     }
 
@@ -114,6 +127,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         TxtDocumento = new javax.swing.JTextField();
         ComboIdLibro = new javax.swing.JComboBox<>();
+        BtnSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,6 +153,14 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
 
         ComboIdLibro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        BtnSalir.setBackground(new java.awt.Color(255, 0, 51));
+        BtnSalir.setText("Salir");
+        BtnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -159,7 +181,10 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
                             .addComponent(ComboIdLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(156, 156, 156)
-                        .addComponent(BtnPrestarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(BtnPrestarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(BtnSalir)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -175,7 +200,9 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
                     .addComponent(ComboIdLibro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addComponent(BtnPrestarLibro, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(BtnSalir)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -196,6 +223,11 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
         prestarLibro();
         
     }//GEN-LAST:event_BtnPrestarLibroActionPerformed
+
+    private void BtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnSalirActionPerformed
+
+       dispose();
+    }//GEN-LAST:event_BtnSalirActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -231,6 +263,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnPrestarLibro;
+    private javax.swing.JButton BtnSalir;
     private javax.swing.JComboBox<String> ComboIdLibro;
     private javax.swing.JTextField TxtDocumento;
     private javax.swing.JLabel jLabel1;

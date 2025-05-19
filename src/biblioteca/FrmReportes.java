@@ -36,6 +36,7 @@ public class FrmReportes extends javax.swing.JFrame {
 
         BtnReporteEstadistico.setBackground(new java.awt.Color(0, 204, 102));
         BtnReporteEstadistico.setText("Generar");
+        BtnReporteEstadistico.setEnabled(false);
         BtnReporteEstadistico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnReporteEstadisticoActionPerformed(evt);
