@@ -12,13 +12,15 @@ public class FrmReportes extends javax.swing.JFrame {
     private Libro libro;
     ArrayList<Libro> libroRecibido;
     ArrayList<PrestamoModel> prestamos;
+    ArrayList<Libro> LibrosMasPrestados;
 
     public FrmReportes() {
         initComponents();
         reporteLibro = new Reportes();
         this.biblioteca = new Biblioteca();
+        this.prestamos = new ArrayList();
         this.libroRecibido = biblioteca.obtenerLibros();
-        this.prestamos = biblioteca.reporteTablePrestamos();
+        this.LibrosMasPrestados = biblioteca.librosMasPrestados();
 
     }
 
@@ -49,11 +51,28 @@ public class FrmReportes extends javax.swing.JFrame {
 
     }
 
+    public void LibrosMasPrestados() {
+        String[] encabezado = {"Id del libro", "Titulo", "Veces Prestado"};
+        this.LibrosMasPrestados = biblioteca.librosMasPrestados();
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            modelo.setColumnIdentifiers(encabezado);
+            for (int i = 0; i < LibrosMasPrestados.size(); i++) {
+                modelo.addRow(new Object[]{
+                    LibrosMasPrestados.get(i).getId(),
+                    LibrosMasPrestados.get(i).getTitulo(),
+                    LibrosMasPrestados.get(i).getVecesPrestado(),});
+                TableInfoReportes.setModel(modelo);
+            }
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(this, "No se pudo traer la informacion" + e, "Error", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+    }
+
     public void ReportePrestamosGeneral() {
-        String[] encabezado = {
-            "Documento del usuario", "Id del libro", "Id del ejemplar",
-            "Fecha Prestamos", "Fecha Devolucion", "Estado"
-        };
+        String[] encabezado = {"Documento del usuario", "Id del libro", "Id del ejemplar", "Fecha Prestamos", "Fecha Devolucion", "Estado"};
 
         this.prestamos = biblioteca.reporteTablePrestamos();
         try {
@@ -68,11 +87,10 @@ public class FrmReportes extends javax.swing.JFrame {
                     prestamos.get(i).getIdEjemplar(),
                     prestamos.get(i).getFechaPrestamo(),
                     prestamos.get(i).getFechaDevolucion(),
-                    prestamos.get(i).getEstado(),
+                    prestamos.get(i).getEstado()
                 });
             }
 
-            
             TableInfoReportes.setModel(modelo);
 
         } catch (Exception e) {
@@ -250,6 +268,7 @@ public class FrmReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnReporteEstadisticoActionPerformed
 
     private void BtnMasprestadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnMasprestadosActionPerformed
+        LibrosMasPrestados();
         reporteLibro.exportarLibrosMasPrestados();
     }//GEN-LAST:event_BtnMasprestadosActionPerformed
 
