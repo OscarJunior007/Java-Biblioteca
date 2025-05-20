@@ -43,7 +43,7 @@ public class Biblioteca {
     public void setDbUsers(ArrayList<Usuario> dbUsers) {
         this.dbUsers = dbUsers;
     }
-
+    //AQUI GUARDAMOS LOS LIBROS INGRESADOS DIRECTAMENTE A LA BASE DE DATOS
     public boolean guardarLibro(Libro nuevoLibro) {
 
         String SQLquery = "CALL guardar_libros(?,?,?,?,?,?)";
@@ -72,7 +72,7 @@ public class Biblioteca {
         }
 
     }
-
+    //VERIFICAR SI EL ISBN DE UN LIBRO EXISTE BIEN SEA PARA REALIZAR UN PRESTAMO A UNA DEVOLUCION
     public int verificarExistencia(String isbn) {
         String SQLquery = "SELECT existe_isbn(?);";
         int existe = 0;
@@ -90,7 +90,7 @@ public class Biblioteca {
         }
         return existe;
     }
-
+  //LOGICA PARA REALIZAR LA DEVOLUCION DE UN LIBRO PRESTADO POR UN USUARIO
     public boolean deVolverLibro(DevolucionModel model) {
         String SQLquery = "CALL actualizar_estado_ejemplar(?,?,?)";
         try {
@@ -114,7 +114,7 @@ public class Biblioteca {
         }
 
     }
-
+  //LOGICA PARA OBTENER LOS REPORTES DE LOS PRESTAMO
     public ArrayList<PrestamoModel> reporteTablePrestamos() {
         String SQLquery = "CALL select_table_prestamo()";
 
@@ -138,7 +138,7 @@ public class Biblioteca {
         return prestamo;
 
     }
-
+     //LOGICA PARA OBTENER EL REPORTE DE LOS LIBROS MAS PRESTADOS
     public ArrayList<LibroPrestadoModel> obtenerLibrosPrestados(String documento) {
         String SQLquery = "CALL libros_prestados_by_user(?)";
 
