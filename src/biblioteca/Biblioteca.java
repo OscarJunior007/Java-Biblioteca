@@ -14,6 +14,7 @@ public class Biblioteca {
     ArrayList<PrestamoModel> prestamo;
     Libro libro;
     private ArrayList<Libro> libros;
+    private ArrayList<reporteInventarioModel>librosInventario;
     private ArrayList<LibroPrestadoModel> libroPrestado;
     Usuario usuario;
     private ArrayList<Usuario> dbUsers;
@@ -25,6 +26,7 @@ public class Biblioteca {
         this.libro = new Libro();
         this.libroPrestado = new ArrayList<>();
         this.prestamo = new ArrayList<>();
+        this.librosInventario = new ArrayList<>();
 
     }
 
@@ -184,6 +186,33 @@ public class Biblioteca {
         }
         return libros;
 
+    }
+    
+    public ArrayList<reporteInventarioModel> reporteInventario(){
+        String SQLquery = "call reporte_inventario() ";
+        librosInventario.clear();
+        try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery); ResultSet response = ps.executeQuery()) {
+
+            while (response.next()) {
+                reporteInventarioModel libro = new reporteInventarioModel();
+                
+                libro.setTitulo(response.getString("titulo"));
+                libro.setAutor(response.getString("autor"));
+                libro.setCategoria(response.getString("categoria"));
+                libro.setFechaPublicacion(response.getDate("fecha_publicacion"));
+                libro.setISBN(response.getString("ISBN"));
+                libro.setEstado(response.getString("estado"));
+
+
+       
+
+                librosInventario.add(libro);
+            }
+        } catch (Exception e) {
+            System.out.println("No se pudo traer los libros: " + e.getMessage());
+        }
+        return librosInventario;
+                
     }
 
     public ArrayList<Libro> obtenerLibros() {

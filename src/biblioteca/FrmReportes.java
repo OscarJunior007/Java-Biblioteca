@@ -10,7 +10,7 @@ public class FrmReportes extends javax.swing.JFrame {
     Cconexion conexion = new Cconexion();
     private Biblioteca biblioteca;
     private Libro libro;
-    ArrayList<Libro> libroRecibido;
+    ArrayList<reporteInventarioModel> libroRecibido;
     ArrayList<PrestamoModel> prestamos;
     ArrayList<Libro> LibrosMasPrestados;
 
@@ -19,14 +19,14 @@ public class FrmReportes extends javax.swing.JFrame {
         reporteLibro = new Reportes();
         this.biblioteca = new Biblioteca();
         this.prestamos = new ArrayList();
-        this.libroRecibido = biblioteca.obtenerLibros();
+        this.libroRecibido = new ArrayList();
         this.LibrosMasPrestados = biblioteca.librosMasPrestados();
 
     }
 
     public void ReporteInventario() {
-        String[] encabezado = {"Id", "Titulo", "Autor", "categoria", "Fecha de pubicacion", "stock"};
-        this.libroRecibido = biblioteca.obtenerLibros();
+        String[] encabezado = {"Titulo", "Autor", "categoria", "Fecha de pubicacion", "ISBN","Estado"};
+        this.libroRecibido = biblioteca.reporteInventario();
         try {
 
             DefaultTableModel modelo = new DefaultTableModel();
@@ -34,12 +34,16 @@ public class FrmReportes extends javax.swing.JFrame {
 
             for (int i = 0; i < libroRecibido.size(); i++) {
                 modelo.addRow(new Object[]{
-                    libroRecibido.get(i).getId(),
+            
                     libroRecibido.get(i).getTitulo(),
                     libroRecibido.get(i).getAutor(),
                     libroRecibido.get(i).getCategoria(),
                     libroRecibido.get(i).getFechaPublicacion(),
-                    libroRecibido.get(i).getStock()
+                    libroRecibido.get(i).getISBN(),
+                    libroRecibido.get(i).getEstado(),
+
+
+         
                 });
 
             }
@@ -73,7 +77,7 @@ public class FrmReportes extends javax.swing.JFrame {
 
     public void ReportePrestamosGeneral() {
         String[] encabezado = {"Documento del usuario", "Id del libro", "Id del ejemplar", "Fecha Prestamos", "Fecha Devolucion", "Estado"};
-
+        this.prestamos.clear();
         this.prestamos = biblioteca.reporteTablePrestamos();
         try {
 
@@ -279,7 +283,7 @@ public class FrmReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnVolverActionPerformed
 
     private void BtnReporteLibros1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReporteLibros1ActionPerformed
-        ReporteInventario();
+           ReporteInventario();
          reporteLibro.reporteLibrosExcel();    }//GEN-LAST:event_BtnReporteLibros1ActionPerformed
 
     private void BtnReportePrestamosGeneral1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnReportePrestamosGeneral1ActionPerformed

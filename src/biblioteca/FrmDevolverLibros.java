@@ -19,12 +19,14 @@ public class FrmDevolverLibros extends javax.swing.JFrame {
         biblioteca = new Biblioteca();
         devolucion = new DevolucionModel();
         TxtDocumento.setText("");
+        this.libroRecibido = new ArrayList();
         TxtISBN.setText("");
         mostrarInfo();
     }
 
     public void mostrarInfo() {
         documento = TxtDocumento.getText();
+        this.libroRecibido.clear();
         this.libroRecibido = biblioteca.obtenerLibrosPrestados(documento);
         try {
             modelo = new DefaultTableModel();
