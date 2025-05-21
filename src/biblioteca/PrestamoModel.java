@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package biblioteca;
 
 import java.util.Date;
-
+//CLASE MODELO PARA OBTENER LOS PRESTAMOS REALIZADOS
 public class PrestamoModel {
     private int libroId;
     private String idEjemplar,documentoUsuario,estado;

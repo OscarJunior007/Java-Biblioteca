@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package biblioteca;
 
 import jxl.write.Label;
@@ -17,7 +14,7 @@ import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
 public class Reportes {
-    
+  //CLASE MODELO PARA OBTENER LOS REOPORTES Y EXPORTAR  
     private static String nombreArchivo;
     
     

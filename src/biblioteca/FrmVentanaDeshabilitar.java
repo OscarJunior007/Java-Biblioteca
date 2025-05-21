@@ -5,12 +5,9 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static sun.jvm.hotspot.HelloWorld.e;
 
-/**
- *
- * @author Oscar
- */
-public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
 
+public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
+//FORMULARIO PARA ACTUALIZAR EL ESTADO DE LOS LIBROS
     private FrmBiblioteca v1;
     private Biblioteca biblioteca;
     ArrayList<Libro> libroRecibido;
@@ -206,7 +203,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+//BUSCAMOS LOS EJEMPLARES POR TITULO O AUTOR PARA MANEJAR EL EJEMPLAR QUE DESEEMOS
     private void buscarEjemplarPorTitulo() {
         String textoBuscado = TxtBuscarTitulo.getText().trim().toLowerCase();
         ArrayList<Ejemplares> todosLosEjemplares = new ArrayList<>(biblioteca.obtenerEstadoLibros());
@@ -238,7 +235,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
 
         TableInfo.setModel(modelo);
     }
-
+//LOGICA PARA DESHABILITAR LOS LIRBROS
     public void DeshabilitarLibros() {
         String ISBN = obtenerIsbn.getText().trim();
         
@@ -264,7 +261,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se pudo deshabilitar el ejemplar. Verifique el ISBN.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+//LOGICA PARA HABILITAR LOS LIBROS
     public void HabilitarLibros() {
         String ISBN = obtenerIsbn.getText().trim();
         
@@ -291,7 +288,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se pudo habilitar el ejemplar. Verifique el ISBN.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+//LOGICA PARA ACTULIZAR ESTADO A DAÑADO
     public void LibrosDañados() {
         String ISBN = obtenerIsbn.getText().trim();
         

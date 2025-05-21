@@ -1,7 +1,7 @@
 package biblioteca;
 
 import java.util.Date;
-
+//CLASE MODELO DE LOS LIBROS EN GENERAL
 public class Libro {
 
     private int id;

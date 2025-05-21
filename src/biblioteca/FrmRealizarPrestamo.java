@@ -10,12 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Oscar
- */
-public class FrmRealizarPrestamo extends javax.swing.JFrame {
 
+public class FrmRealizarPrestamo extends javax.swing.JFrame {
+//FORMULARIO EN EL CUAL SE REALIZA EL PRESTAMO DE LOS LIBROS
     Biblioteca biblioteca;
     PrestamoModel prestamo;
     ArrayList<String> IsbnLibros;
@@ -41,7 +38,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
     
     
     
-    
+    //REALIZAMOS EL PRESTAMOS DEL LIBRO AL USUARIO SELECCIONADO
     
     public void prestarLibro() {
         
@@ -100,7 +97,7 @@ public class FrmRealizarPrestamo extends javax.swing.JFrame {
         
 
     }
-
+//LLENAMOS UN COMBO BOX, OBTENIENDO TODOS LOS EJEMPLARES DEL LIRBO SELECCIONADO.
     public void llenarComboCategoria() {
 
         ComboIdLibro.removeAllItems();

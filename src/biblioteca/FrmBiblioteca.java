@@ -12,7 +12,7 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+//FORMULARIO PRINCIAPAL DE LA VISTA ADMIN, EN EL CUAL AGREGAMOS LIBROS, PODEMOS MIRAR REPORTES, CAMBIAMOS EL ESTADO DE LOS EJEMPLARES.
 public class FrmBiblioteca extends javax.swing.JFrame {
 
     FrmVentanaDeshabilitar v2;
@@ -42,7 +42,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         mostrarInfo();
 
     }
-
+//FUNCION PARA LLENAR EL COMBO BOX DE LAS CATEGORIAS TOMANDO DIRECTAMENTE LA INFORMACION DE LA BASE DE DATOS
     public void llenarComboCategoria() {
         String SQLquery = "CALL mostrar_categoria()";
         comboCategoria.removeAllItems();
@@ -59,7 +59,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
             System.out.println("No se pudo traer las categorías: " + e.getMessage());
         }
     }
-
+//FUNCION PARA MOSTRAR LA INFORMACION DE LOS LIBROS QUE HAY EN LA BIBLIOTECA EN UNA TABLA
     public void mostrarInfo() {
         this.libroRecibido = biblioteca.obtenerLibros();
         try {
@@ -84,7 +84,7 @@ public class FrmBiblioteca extends javax.swing.JFrame {
         }
 
     }
-
+//LOGICA PARA AGREGAR UN LIBRO A LA BIBLIOTECA, VALIDANDO QUE SE REALIZE DE MANERA CORRECTA.
     public void guardarLibro() {
         titulo = TxtTituloLibro.getText();
         autor = TxtAutorLibro.getText();

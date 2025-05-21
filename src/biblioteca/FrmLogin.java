@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-
+//LOGIN DEL PROGRAMA, EN EL CUAL  LOS USUARIOS ENTRAN AL PROGRAMA.
 public class FrmLogin extends javax.swing.JFrame {
  String Documento, Contraseña;
  private Biblioteca biblioteca;
@@ -147,7 +147,7 @@ public class FrmLogin extends javax.swing.JFrame {
             newUser.setVisible(true);
             dispose();
     }//GEN-LAST:event_BtnNuevoUsuarioActionPerformed
-
+//LOGICA PARA VALIDAR QUE LA INGORMACION SEA CORRECTA E INGRESAR AL PROGRAMA
     private void BtnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnIngresarActionPerformed
         Documento = TxtDocumento.getText();
         char[] passwordArray = TxtContraseña.getPassword();
@@ -220,7 +220,7 @@ public class FrmLogin extends javax.swing.JFrame {
          
         } 
     }//GEN-LAST:event_BtnIngresarActionPerformed
-    
+    //AQUI SIMPLEMENTE PODEMOS USAR LAS FLECHAS DE ABAJO, ARRIBA Y EL BOTON ENTER PARA MOVERNOS POR EL PROGRAMA O SELECCIONAR BOTONES
     public void interactuar()
     {
         TxtDocumento.addKeyListener(new java.awt.event.KeyAdapter() {

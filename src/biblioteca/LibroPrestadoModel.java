@@ -3,7 +3,7 @@ package biblioteca;
 
 import java.util.Date;
 
-
+//CLASE MODELO DE LOS LIBROS PRESTADOS
 public class LibroPrestadoModel {
     
     int idLibro;

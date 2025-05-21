@@ -1,7 +1,7 @@
 
 package biblioteca;
 
-
+//CLASE MODELO DE LOS USUARIOS EN JAVA
 public class Usuario {
     private String nombre,documento, perfil ="DEFAULT", contraseña, apellido;
     int id;

@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FrmReportes extends javax.swing.JFrame {
-
+//FORMULARIO DONDE SE REALIZAN LOS REPORTES.
     Reportes reporteLibro;
     Cconexion conexion = new Cconexion();
     private Biblioteca biblioteca;
@@ -23,7 +23,7 @@ public class FrmReportes extends javax.swing.JFrame {
         this.LibrosMasPrestados = biblioteca.librosMasPrestados();
 
     }
-
+//LLAMADO DEL REPORTE DE INVENTARIO GENERAL
     public void ReporteInventario() {
         String[] encabezado = {"Titulo", "Autor", "categoria", "Fecha de pubicacion", "ISBN","Estado"};
         this.libroRecibido = biblioteca.reporteInventario();
@@ -54,7 +54,7 @@ public class FrmReportes extends javax.swing.JFrame {
         }
 
     }
-
+//LLAMADO DEL REPORTE DE LOS LIRBOS MAS PRESTADO
     public void LibrosMasPrestados() {
         String[] encabezado = {"Id del libro", "Titulo", "Veces Prestado"};
         this.LibrosMasPrestados = biblioteca.librosMasPrestados();
@@ -74,7 +74,7 @@ public class FrmReportes extends javax.swing.JFrame {
         }
 
     }
-
+//LLAMADO DE TODOS LOS REPORTES DE LOS PRESTAMOS
     public void ReportePrestamosGeneral() {
         String[] encabezado = {"Documento del usuario", "Id del libro", "Id del ejemplar", "Fecha Prestamos", "Fecha Devolucion", "Estado"};
         this.prestamos.clear();

@@ -2,7 +2,7 @@
 package biblioteca;
 
 import java.util.Date;
-
+// CLASE MODELO PARA OBTENER SOLO LOS EJEMPLARES CON SUS NOMBRES
 public class Ejemplares {
     private String titulo, autor, ISBN, estado;
     Date fechaPublicacion;

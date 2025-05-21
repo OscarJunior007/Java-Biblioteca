@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-
+//CLASE DONDE REALIZAMOS TODA LA LOGICA PARA CONECTARNOS A LA BASE DE DATOS
 public class Cconexion {
 
     private Connection conectar;

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+//FORMULARIO PRINCIAPAL QUE MANEJA LA PERSONA CON EL ROL DE BIBLIOTECARIO.
 public class FrmDefaullt extends javax.swing.JFrame {
 
     String[] encabezado = {"Id", "Titulo", "Autor", "Feca de pubicacion", "Seleccione"};
@@ -26,7 +26,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
         mostrarInfo();
 
     }
-
+//EN LA SIGUIENTE FUNCION RECORRE LAS FILAS DE LA TABLA PARA VERIFICAR CUANTOS LIBROS SE HAN SELECCIONADO, VALIDANDO QUE SOLO SE PUEDA TRABAJAR CON UN LIBRO A LA VEZ
     public void recorrerTabla() {
         DefaultTableModel modelo = (DefaultTableModel) TableInfo.getModel();
 
@@ -56,7 +56,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se pudo guardar nada" + e, "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+//AQUI MOSTRAMOS LA INFORMACION DE LOS LIRBOS QUE TENEMOS, AGREGANDO UN COMBO BOX PARA QUE EL BIBLIOTECARIO PUEDA SELECCIONAR UN LIBRO Y PRESTARLO A UN USARIO
     public void mostrarInfo() {
         this.libroRecibido = biblioteca.obtenerLibros();
         try {
@@ -100,7 +100,7 @@ public class FrmDefaullt extends javax.swing.JFrame {
         }
 
     }
-
+//FUNCION PARA FILTRAR LOS LIBROS POR TITULO O AUTOR, FACILITANDO SU BUSQUEDA
     private void buscarLibroPorTitulo() {
         String textoBuscado = TxtBuscarTitulo.getText().trim().toLowerCase();
         ArrayList<Libro> librosFiltrados = new ArrayList<>();

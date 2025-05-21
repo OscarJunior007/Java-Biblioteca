@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FrmUsurios extends javax.swing.JFrame {
-
+//FORMULARIO PARA USUARIOS DEFAULT EN EL CUAL PUEDEN VER LOS LIBROS QUE HAY EN LA BIBLIOTECA
     String[] encabezado = {"Titulo", "Autor","Categoria", "Fecha de pubicacion"};
     ArrayList<Libro> libroRecibido;
     DefaultTableModel modelo = new DefaultTableModel();
@@ -17,7 +17,7 @@ public class FrmUsurios extends javax.swing.JFrame {
         this.libroRecibido = biblioteca.obtenerLibros();
         mostrarInfo();
     }
-
+//LOGICA PARA FILTRAR LOS LIBROS Y FACICLITAR SU BUSQUEDA
      private void buscarLibroPorTitulo() {
         String textoBuscado = TxtBuscarTitulo1.getText().trim().toLowerCase();
         ArrayList<Libro> librosFiltrados = new ArrayList<>();
@@ -63,7 +63,7 @@ public class FrmUsurios extends javax.swing.JFrame {
         }
     }
 
-
+//MOSTRAR INFORMACION DE LOS LIBROS EXISTENTES
     public void mostrarInfo() {
         this.libroRecibido = biblioteca.obtenerLibros();
         try {

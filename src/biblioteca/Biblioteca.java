@@ -333,7 +333,7 @@ public class Biblioteca {
             return false;
         }
     }
-
+  //OBTENEMOS LOS EJEMPLARES JUNTO CON SU ESTADO
     public ArrayList<Ejemplares> obtenerEstadoLibros() {
         String SQLquery = "{CALL llamar_ejemplares_por_titulo()}";
         ArrayList<Ejemplares> listaEjemplares = new ArrayList<>();
@@ -358,7 +358,7 @@ public class Biblioteca {
 
         return listaEjemplares;
     }
-
+//ACTUALIZAMOS EL ESTADP DEÑ EJEMPLAR A DESHABILITADO
     public boolean actualizarEstadoDeshabilitado(String ISBN) {
         String SQLquery = "CALL deshabilitar_ejemplar_por_isbn(?)";
         
@@ -380,7 +380,7 @@ public class Biblioteca {
             return false;
         }
     }
-
+ //ACTUALIZAMOS EL ESTADP DEÑ EJEMPLAR A DISPONIBLE
     public boolean actualizarEstadoDisponible(String ISBN) {
         String SQLquery = "{CALL habilitar_ejemplar_por_isbn(?)}";
 
@@ -394,7 +394,7 @@ public class Biblioteca {
             return false;
         }
     }
-
+//ACTUALIZAMOS EL ESTADP DEÑ EJEMPLAR A DAÑADO
     public boolean actualizarEstadoDaniado(String ISBN) {
         String SQLquery = "{CALL daniar_ejemplar_por_isbn(?)}";
 

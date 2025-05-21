@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 
 public class IngresarUsers extends javax.swing.JFrame {
-
+//LOGICA PARA REGISTRAR USUARIOS DEFAULT
     String Nombre, Apellido, Documento, Contraseña;
      private Biblioteca biblioteca;
      private Usuario usuario;

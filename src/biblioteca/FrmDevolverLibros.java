@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class FrmDevolverLibros extends javax.swing.JFrame {
-
+//FORMULARIO EN EL CUAL SE PUEDE REALIZAR LA DEVOLOCION DE LOS LIBROS PRESTADOS
     String documento, isbn;
     Biblioteca biblioteca;
     DevolucionModel devolucion;
@@ -23,7 +23,7 @@ public class FrmDevolverLibros extends javax.swing.JFrame {
         TxtISBN.setText("");
         mostrarInfo();
     }
-
+//AQUI MOSTRARMOS LA INFORMACION DE LOS LIRBOS PRESTADOS POR EL USUARIO QUE HAYAMOS SELECCIONADO
     public void mostrarInfo() {
         documento = TxtDocumento.getText();
         this.libroRecibido.clear();
@@ -47,7 +47,7 @@ public class FrmDevolverLibros extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se pudo traer ningún libro: " + e.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+//VERIFICAMOS QUE SE INGRESEN LOS DATOS CORRECTAMENTE Y HACEMOS LA DEVOLUCION DEL LIBRO PRESTADO
     public void devolverLibro() {
         isbn = TxtISBN.getText().toUpperCase();
         documento = TxtDocumento.getText();
