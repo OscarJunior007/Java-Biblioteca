@@ -16,6 +16,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
     ArrayList<Libro> libroRecibido;
     String[] encabezado = {"ISBN", "Titulo", "Autor", "Fecha de publicacion"};
     Cconexion conexion = new Cconexion();
+    private ArrayList<Ejemplares> ejemplaresFiltrados;
 
     public void setV1(FrmBiblioteca v1) {
         this.v1 = v1;
@@ -26,6 +27,8 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
         initComponents();
         TxtBuscarTitulo.setText("");
         this.biblioteca = new Biblioteca();
+        this.ejemplaresFiltrados = new ArrayList<>();
+
         obtenerIsbn.setText("");
 
     }
@@ -206,9 +209,7 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
 
     private void buscarEjemplarPorTitulo() {
         String textoBuscado = TxtBuscarTitulo.getText().trim().toLowerCase();
-        ArrayList<Ejemplares> ejemplaresFiltrados = new ArrayList<>();
         ArrayList<Ejemplares> todosLosEjemplares = new ArrayList<>(biblioteca.obtenerEstadoLibros());
-
         for (int i = 0; i < todosLosEjemplares.size(); i++) {
             Ejemplares ejemplar = todosLosEjemplares.get(i);
             String titulo = ejemplar.getTitulo().toLowerCase();
@@ -240,6 +241,16 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
 
     public void DeshabilitarLibros() {
         String ISBN = obtenerIsbn.getText().trim();
+        
+        for (Ejemplares ejemplar : ejemplaresFiltrados) {
+            if (ejemplar.getISBN().equals(ISBN)) {
+                if (ejemplar.getEstado().equals("DESHABILITADO")) {
+                    JOptionPane.showMessageDialog(this, "Este libro ya esta deshabilitado, no puedes deshabilitarlo", "Error", JOptionPane.ERROR_MESSAGE);
+
+                    return;
+                }
+            }
+        }
 
         if (ISBN.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor ingrese un ISBN válido.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -253,43 +264,60 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se pudo deshabilitar el ejemplar. Verifique el ISBN.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     public void HabilitarLibros() {
-    String ISBN = obtenerIsbn.getText().trim();
+        String ISBN = obtenerIsbn.getText().trim();
+        
+         for (Ejemplares ejemplar : ejemplaresFiltrados) {
+            if (ejemplar.getISBN().equals(ISBN)) {
+                if (ejemplar.getEstado().equals("DISPONIBLE")) {
+                    JOptionPane.showMessageDialog(this, "Este libro ya se encuentra disponible", "Error", JOptionPane.ERROR_MESSAGE);
 
-    if (ISBN.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor ingrese un ISBN válido.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
+                    return;
+                }
+            }
+        }
+
+        if (ISBN.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese un ISBN válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        boolean resultado = biblioteca.actualizarEstadoDisponible(ISBN);
+
+        if (resultado) {
+            JOptionPane.showMessageDialog(this, "El ejemplar fue habilitado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo habilitar el ejemplar. Verifique el ISBN.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
-    boolean resultado = biblioteca.actualizarEstadoDisponible(ISBN);
-
-    if (resultado) {
-        JOptionPane.showMessageDialog(this, "El ejemplar fue habilitado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-    } else {
-        JOptionPane.showMessageDialog(this, "No se pudo habilitar el ejemplar. Verifique el ISBN.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
-    
-    
     public void LibrosDañados() {
-    String ISBN = obtenerIsbn.getText().trim();
+        String ISBN = obtenerIsbn.getText().trim();
+        
+         for (Ejemplares ejemplar : ejemplaresFiltrados) {
+            if (ejemplar.getISBN().equals(ISBN)) {
+                if (ejemplar.getEstado().equals("DANIADO")) {
+                    JOptionPane.showMessageDialog(this, "Este libro ya esta marcado como dañado", "Error", JOptionPane.ERROR_MESSAGE);
 
-    if (ISBN.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Por favor ingrese un ISBN válido.", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
+                    return;
+                }
+            }
+        }
+
+        if (ISBN.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese un ISBN válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        boolean resultado = biblioteca.actualizarEstadoDaniado(ISBN);
+
+        if (resultado) {
+            JOptionPane.showMessageDialog(this, "El ejemplar fue marcado como dañado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo marcar el ejemplar. Verifique el ISBN.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
-
-    boolean resultado = biblioteca.actualizarEstadoDaniado(ISBN);
-
-    if (resultado) {
-        JOptionPane.showMessageDialog(this, "El ejemplar fue marcado como dañado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-    } else {
-        JOptionPane.showMessageDialog(this, "No se pudo marcar el ejemplar. Verifique el ISBN.", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
-
-
 
 
     private void BtnVentanaBibliotecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVentanaBibliotecaActionPerformed
@@ -300,24 +328,26 @@ public class FrmVentanaDeshabilitar extends javax.swing.JFrame {
     }//GEN-LAST:event_BtnVentanaBibliotecaActionPerformed
 
     private void BtnHabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnHabilitarActionPerformed
-   HabilitarLibros() ;
+        HabilitarLibros();
 
     }//GEN-LAST:event_BtnHabilitarActionPerformed
 
     private void BtnDeshabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnDeshabilitarActionPerformed
-       DeshabilitarLibros();
+        DeshabilitarLibros();
     }//GEN-LAST:event_BtnDeshabilitarActionPerformed
 
     private void obtenerIsbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_obtenerIsbnActionPerformed
-       
+
     }//GEN-LAST:event_obtenerIsbnActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        ejemplaresFiltrados.clear();
+
         buscarEjemplarPorTitulo();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnDaniadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDaniadoActionPerformed
-     LibrosDañados();
+        LibrosDañados();
     }//GEN-LAST:event_btnDaniadoActionPerformed
 
     /**

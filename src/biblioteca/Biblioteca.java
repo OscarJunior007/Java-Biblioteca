@@ -361,7 +361,7 @@ public class Biblioteca {
 
     public boolean actualizarEstadoDeshabilitado(String ISBN) {
         String SQLquery = "CALL deshabilitar_ejemplar_por_isbn(?)";
-
+        
         try {
             PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
             ps.setString(1, ISBN); // Parámetro correcto
