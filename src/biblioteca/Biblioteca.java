@@ -111,7 +111,7 @@ public class Biblioteca {
             System.out.println("Estado editado con exito");
             return true;
         } catch (Exception e) {
-            System.out.println("Ocurrio un error" + e);
+            System.out.println("Ocurrio un   error" + e);
             return false;
         }
 
