@@ -194,7 +194,6 @@ public class FrmBiblioteca extends javax.swing.JFrame {
 
         BtnDeshabilitar.setBackground(new java.awt.Color(255, 0, 51));
         BtnDeshabilitar.setText("Deshabilitar libros --->");
-        BtnDeshabilitar.setEnabled(false);
         BtnDeshabilitar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BtnDeshabilitarActionPerformed(evt);

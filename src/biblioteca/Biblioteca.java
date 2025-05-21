@@ -8,16 +8,18 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class Biblioteca {
+//EN ESTA CLASE ESTAN LA GRAN MAYORIA DE LOS METODOS PARA TOMAR E INSERTAR DATOS DE LA BASE DE DATOS
 
     Cconexion conexion = new Cconexion();
     ArrayList<String> IsbnLibros;
     ArrayList<PrestamoModel> prestamo;
     Libro libro;
     private ArrayList<Libro> libros;
-    private ArrayList<reporteInventarioModel>librosInventario;
+    private ArrayList<reporteInventarioModel> librosInventario;
     private ArrayList<LibroPrestadoModel> libroPrestado;
     Usuario usuario;
     private ArrayList<Usuario> dbUsers;
+    private ArrayList<Ejemplares> ejemplares;
 
     public Biblioteca() {
 
@@ -27,6 +29,7 @@ public class Biblioteca {
         this.libroPrestado = new ArrayList<>();
         this.prestamo = new ArrayList<>();
         this.librosInventario = new ArrayList<>();
+        this.ejemplares = new ArrayList<>();
 
     }
 
@@ -45,6 +48,7 @@ public class Biblioteca {
     public void setDbUsers(ArrayList<Usuario> dbUsers) {
         this.dbUsers = dbUsers;
     }
+
     //AQUI GUARDAMOS LOS LIBROS INGRESADOS DIRECTAMENTE A LA BASE DE DATOS
     public boolean guardarLibro(Libro nuevoLibro) {
 
@@ -74,6 +78,7 @@ public class Biblioteca {
         }
 
     }
+
     //VERIFICAR SI EL ISBN DE UN LIBRO EXISTE BIEN SEA PARA REALIZAR UN PRESTAMO A UNA DEVOLUCION
     public int verificarExistencia(String isbn) {
         String SQLquery = "SELECT existe_isbn(?);";
@@ -84,7 +89,6 @@ public class Biblioteca {
             try (ResultSet response = ps.executeQuery()) {
                 if (response.next()) {
                     existe = response.getInt(1);
-
                 }
             }
         } catch (Exception e) {
@@ -92,7 +96,8 @@ public class Biblioteca {
         }
         return existe;
     }
-  //LOGICA PARA REALIZAR LA DEVOLUCION DE UN LIBRO PRESTADO POR UN USUARIO
+    //LOGICA PARA REALIZAR LA DEVOLUCION DE UN LIBRO PRESTADO POR UN USUARIO
+
     public boolean deVolverLibro(DevolucionModel model) {
         String SQLquery = "CALL actualizar_estado_ejemplar(?,?,?)";
         try {
@@ -101,7 +106,6 @@ public class Biblioteca {
             ps.setString(1, model.getIsbn());
             ps.setDate(2, new java.sql.Date(model.getFechaDevolucion().getTime()));
             ps.setString(3, model.getDocumentoUsuario());
-
             System.out.println("Ejecutando procedimiento con parámetros:");
             System.out.println("ISBN: " + model.getIsbn());
             System.out.println("Fecha Devolución: " + new java.sql.Date(model.getFechaDevolucion().getTime()));
@@ -116,7 +120,8 @@ public class Biblioteca {
         }
 
     }
-  //LOGICA PARA OBTENER LOS REPORTES DE LOS PRESTAMO
+    //LOGICA PARA OBTENER LOS REPORTES DE LOS PRESTAMO
+
     public ArrayList<PrestamoModel> reporteTablePrestamos() {
         String SQLquery = "CALL select_table_prestamo()";
 
@@ -140,7 +145,8 @@ public class Biblioteca {
         return prestamo;
 
     }
-     //LOGICA PARA OBTENER EL REPORTE DE LOS LIBROS MAS PRESTADOS
+    //LOGICA PARA OBTENER EL REPORTE DE LOS LIBROS MAS PRESTADOS
+
     public ArrayList<LibroPrestadoModel> obtenerLibrosPrestados(String documento) {
         String SQLquery = "CALL libros_prestados_by_user(?)";
 
@@ -166,6 +172,7 @@ public class Biblioteca {
 
         return libroPrestado;
     }
+//LOGICA PARA OBTENER LOS LIBROS MAS PRESTADOS Y MOSTRARLO EN UN REPORTE
 
     public ArrayList<Libro> librosMasPrestados() {
         String SQLquery = "CALL libros_mas_prestados()";
@@ -187,33 +194,31 @@ public class Biblioteca {
         return libros;
 
     }
-    
-    public ArrayList<reporteInventarioModel> reporteInventario(){
+
+    //OBTENEMOS LOS DATOS DE TODOS LOS LIRBOS EN LA BASE DE DATOS PARA MOSTRARLO EN UN REPORTE DE INVENTARIO COMPLETO
+    public ArrayList<reporteInventarioModel> reporteInventario() {
         String SQLquery = "call reporte_inventario() ";
         librosInventario.clear();
         try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery); ResultSet response = ps.executeQuery()) {
 
             while (response.next()) {
                 reporteInventarioModel libro = new reporteInventarioModel();
-                
+
                 libro.setTitulo(response.getString("titulo"));
                 libro.setAutor(response.getString("autor"));
                 libro.setCategoria(response.getString("categoria"));
                 libro.setFechaPublicacion(response.getDate("fecha_publicacion"));
                 libro.setISBN(response.getString("ISBN"));
                 libro.setEstado(response.getString("estado"));
-
-
-       
-
                 librosInventario.add(libro);
             }
         } catch (Exception e) {
             System.out.println("No se pudo traer los libros: " + e.getMessage());
         }
         return librosInventario;
-                
+
     }
+//OBTENER LOS LIBROS PARA MOSTRARLOS
 
     public ArrayList<Libro> obtenerLibros() {
         String SQLquery = "CALL mostrar_libros()";
@@ -237,6 +242,7 @@ public class Biblioteca {
         }
         return libros;
     }
+//OBTENEMOS LOS LIBROS POR SU ID UNICO PARA DIFERENCIAR EL LIBRO A PRESTAR O A DEVOLVER
 
     public ArrayList<String> obtenerLibroById(int idLibro) {
         ArrayList<String> IsbnLibros = new ArrayList<>();
@@ -256,6 +262,7 @@ public class Biblioteca {
 
         return IsbnLibros;
     }
+    //GUARDAMOS LOS USUARIOS QUE SE REGISTRAN EN LA BIBLIOTECA
 
     public boolean guardarUser(Usuario nuevoUsuario) {
 
@@ -281,6 +288,7 @@ public class Biblioteca {
             return false;
         }
     }
+//AQUI VERIFICAMOS LA EXISTENCIA DE LOS USUARIOS PARA VALIDAR SU INGRESO
 
     public boolean usuarioExiste(String documento) {
         boolean existe = false;
@@ -303,6 +311,7 @@ public class Biblioteca {
 
         return existe;
     }
+    //REALIZMOS LA LOGICA PARA QUE EL USUARIO PUEDA PRESTAR UN LIBRO
 
     public boolean prestarLibro(PrestamoModel prestamo) {
         String SQLquery = "{CALL registrar_prestamo(?,?,?,?,?,?)}";
@@ -315,7 +324,6 @@ public class Biblioteca {
             cs.setDate(4, new java.sql.Date(prestamo.getFechaPrestamo().getTime()));
             cs.setDate(5, null); // o puedes poner una fecha estimada
             cs.setString(6, "PRESTADO");
-
             cs.execute();
 
             System.out.println("Libro PRESTADO con éxito");
@@ -325,83 +333,80 @@ public class Biblioteca {
             return false;
         }
     }
-    
-    
-   
-    
 
-    /*  public boolean actualizarEstadoDeshabilitado(int idLibro){
-        String SQLquery = "UPDATE libros SET deshabilitado = ? WHERE id = ?";
-        
+    public ArrayList<Ejemplares> obtenerEstadoLibros() {
+        String SQLquery = "{CALL llamar_ejemplares_por_titulo()}";
+        ArrayList<Ejemplares> listaEjemplares = new ArrayList<>();
+
+        try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery); ResultSet response = ps.executeQuery()) {
+
+            while (response.next()) {
+                Ejemplares ejemplar = new Ejemplares();
+
+                ejemplar.setTitulo(response.getString("titulo"));
+                ejemplar.setAutor(response.getString("autor"));
+                ejemplar.setFechaPublicacion(response.getDate("fecha_publicacion"));
+                ejemplar.setISBN(response.getString("ISBN"));
+                ejemplar.setEstado(response.getString("estado"));
+
+                listaEjemplares.add(ejemplar);
+            }
+
+        } catch (Exception e) {
+            System.out.println("No se pudo traer los ejemplares: " + e.getMessage());
+        }
+
+        return listaEjemplares;
+    }
+
+    public boolean actualizarEstadoDeshabilitado(String ISBN) {
+        String SQLquery = "CALL deshabilitar_ejemplar_por_isbn(?)";
+
         try {
-        PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
-        ps.setInt(1,1);
-        ps.setInt(2, idLibro);
+            PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
+            ps.setString(1, ISBN); // Parámetro correcto
 
-        int filasAfectadas = ps.executeUpdate();
-        
-        if (filasAfectadas > 0) {
-            System.out.println("Estado 'deshabilitado' actualizado con éxito");
-            return true;
-        } else {
-            System.out.println("No se encontró el libro para actualizar");
+            int filasAfectadas = ps.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                System.out.println("Estado 'deshabilitado' actualizado con éxito");
+                return true;
+            } else {
+                System.out.println("No se encontró el ejemplar para actualizar");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error al actualizar el estado: " + e.getMessage());
             return false;
         }
-    } catch (Exception e) {
-        System.out.println("Ocurrió un error al actualizar el estado: " + e);
-        return false;
     }
-        
-    }
-    
-    
-     public boolean actualizarEstadoDeshabilitadoFalse(int idLibro){
-        String SQLquery = "UPDATE libros SET deshabilitado = ? WHERE id = ?";
-        
-        try {
-        PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
-        ps.setInt(1,0);
-        ps.setInt(2, idLibro);
 
-        int filasAfectadas = ps.executeUpdate();
-        
-        if (filasAfectadas > 0) {
-            System.out.println("Estado 'deshabilitado' actualizado con éxito");
-            return true;
-        } else {
-            System.out.println("No se encontró el libro para actualizar");
+    public boolean actualizarEstadoDisponible(String ISBN) {
+        String SQLquery = "{CALL habilitar_ejemplar_por_isbn(?)}";
+
+        try (CallableStatement cs = conexion.estableceConexcion().prepareCall(SQLquery)) {
+            cs.setString(1, ISBN);
+            int filasAfectadas = cs.executeUpdate();
+
+            return filasAfectadas > 0;
+        } catch (Exception e) {
+            System.out.println("Error al actualizar estado a disponible: " + e.getMessage());
             return false;
         }
-    } catch (Exception e) {
-        System.out.println("Ocurrió un error al actualizar el estado: " + e);
-        return false;
     }
-        
-    }
-    
-   
 
-   
-  public ArrayList<Libro> obtenerLibrosDeshabilitados() {
-    String SQLquery = "SELECT * FROM libros where deshabilitado = 1";
-    libros.clear(); 
-    
-    try (PreparedStatement ps = conexion.estableceConexcion().prepareStatement(SQLquery);
-         ResultSet response = ps.executeQuery()) {
+    public boolean actualizarEstadoDaniado(String ISBN) {
+        String SQLquery = "{CALL daniar_ejemplar_por_isbn(?)}";
 
-        while (response.next()) {
-            Libro libro = new Libro(); 
-            libro.setId(response.getInt("id"));
-            libro.setTitulo(response.getString("titulo"));
-            libro.setAutor(response.getString("autor"));
-            
+        try (CallableStatement cs = conexion.estableceConexcion().prepareCall(SQLquery)) {
+            cs.setString(1, ISBN);
+            int filasAfectadas = cs.executeUpdate();
 
-            libros.add(libro); 
+            return filasAfectadas > 0;
+        } catch (Exception e) {
+            System.out.println("Error al actualizar estado a dañado: " + e.getMessage());
+            return false;
         }
-    } catch (Exception e) {
-        System.out.println("No se pudo traer los libros: " + e.getMessage());
     }
-    return libros;
-}
-     */
+
 }

@@ -49,7 +49,6 @@ public class FrmDevolverLibros extends javax.swing.JFrame {
     }
 
     public void devolverLibro() {
-
         isbn = TxtISBN.getText().toUpperCase();
         documento = TxtDocumento.getText();
         Date fechaDevolucion = new Date();
